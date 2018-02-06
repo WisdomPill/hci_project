@@ -11,40 +11,54 @@ function addProcess(layer, descriptor) {
         y: descriptor.final.y,
         height: descriptor.height,
         width: descriptor.width,
-        fill: descriptor.color,
+        fill: 'black',
         opacity: 0.6,
         scale: {
             x: scale,
             y: scale
-        }
+        },
+        name: 'shadow'
+
     });
 
     layer.add(process_shadow);
 
-    var process = new Konva.Rect({
+    var process = new Konva.Label({
         x: descriptor.initial.x,
         y: descriptor.initial.y,
-        height: descriptor.height,
-        width: descriptor.width,
-        fill: descriptor.color,
-        opacity: 0.8,
         draggable: true,
         scale: {
             x: scale,
             y: scale
         },
+        // custom attribute
+        startScale: scale,
+        final: descriptor.final,
+        initial: descriptor.initial
+    });
+
+    process.add(new Konva.Tag({
+        fill: descriptor.color,
+        opacity: 0.8,
         shadowColor: 'black',
         shadowBlur: 10,
         shadowOffset: {
             x: 5,
             y: 5
         },
-        shadowOpacity: 0.6,
-        // custom attribute
-        startScale: scale,
-        final: descriptor.final,
-        initial: descriptor.initial
-    });
+        shadowOpacity: 0.6
+    }));
+
+    process.add(new Konva.Text({
+        text: descriptor.text,
+        align: 'center',
+
+        fontFamily: 'Calibri',
+        fontSize: 18,
+        fill: 'black',
+        height: descriptor.height,
+        width: descriptor.width
+    }));
 
     layer.add(process);
 }
@@ -58,59 +72,115 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 var dragLayer = new Konva.Layer();
 
-var descriptor = [
-    {
-        height: 100,
-        width: 300,
-        cornerRadius: 10,
-        initial: {
-            x: 10,
-            y: 100
+layer.add(new Konva.Rect({
+        x: 1000,
+        y: 300,
+        height: 50,
+        width: 50,
+        fill: 'yellow',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
         },
-        final: {
-            x: 400,
-            y: 100
-        },
-        text: 'example text',
-        code: 'example code',
-        color: '#38b735'
-    },
-    {
-        height: 100,
-        width: 300,
-        cornerRadius: 10,
-        initial: {
-            x: 10,
-            y: 300
-        },
-        final: {
-            x: 400,
-            y: 300
-        },
-        text: 'example text',
-        code: 'example code',
-        color: '#3455b7'
-    },
-    {
-        height: 100,
-        width: 300,
-        cornerRadius: 10,
-        initial: {
-            x: 10,
-            y: 500
-        },
-        final: {
-            x: 400,
-            y: 500
-        },
-        text: 'example text',
-        code: 'example code',
-        color: '#b72c35'
+        name: 'remove_me'
     }
-];
+));
+
+layer.add(new Konva.Rect({
+        x: 1000,
+        y: 400,
+        height: 50,
+        width: 50,
+        fill: 'blue',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        name: 'remove_me'
+    }
+));
+
+var obj = new Konva.Rect({
+        x: 1000,
+        y: 200,
+        height: 50,
+        width: 50,
+        fill: 'red',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        name: 'remove_button'
+    }
+);
+layer.add(obj);
+
+var descriptor = {
+    error_message: '',
+    background_img: '',
+    processes: [
+        {
+            height: 100,
+            width: 300,
+            cornerRadius: 10,
+            initial: {
+                x: 10,
+                y: 100
+            },
+            final: {
+                x: 400,
+                y: 100
+            },
+            text: 'example text',
+            code: 'example code',
+            color: '#38b735'
+        },
+        {
+            height: 100,
+            width: 300,
+            cornerRadius: 10,
+            initial: {
+                x: 10,
+                y: 300
+            },
+            final: {
+                x: 400,
+                y: 300
+            },
+            text: 'example text',
+            code: 'example code',
+            color: '#3455b7'
+        },
+        {
+            height: 100,
+            width: 300,
+            cornerRadius: 10,
+            initial: {
+                x: 10,
+                y: 500
+            },
+            final: {
+                x: 400,
+                y: 500
+            },
+            text: 'example text',
+            code: 'example code',
+            color: '#b72c35'
+        }
+    ],
+    lines: [
+        {
+            initial: {},
+            final: {}
+        }
+    ]
+};
 
 function load_descriptor(descriptor) {
-    descriptor.forEach(function (value) {
+    descriptor.processes.forEach(function (value) {
         addProcess(layer, value);
     });
 }
@@ -118,6 +188,21 @@ function load_descriptor(descriptor) {
 load_descriptor(descriptor);
 
 stage.add(layer, dragLayer);
+
+stage.on('click', function (evt) {
+    var shape = evt.target;
+    console.log(shape.attrs.name);
+    if (shape.attrs.name === 'remove_button') {
+        var to_remove = this.find('.remove_me');
+
+        console.log(to_remove);
+
+        to_remove.forEach(function (value) {
+            value.destroy();
+        });
+        this.draw();
+    }
+});
 
 stage.on('dragstart', function (evt) {
     var shape = evt.target;
