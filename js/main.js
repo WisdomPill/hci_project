@@ -3,42 +3,21 @@ var height = window.innerHeight;
 
 var tween = null;
 
-function addProcess(layer, descriptor) {
-    var scale = 1;
-
-    var process_shadow = new Konva.Rect({
-        x: descriptor.final.x,
-        y: descriptor.final.y,
-        height: descriptor.height,
-        width: descriptor.width,
-        fill: 'black',
-        opacity: 0.6,
-        scale: {
-            x: scale,
-            y: scale
-        },
-        name: 'shadow'
-
-    });
-
-    layer.add(process_shadow);
-
+function addProcess(layer, process_descriptor) {
     var process = new Konva.Label({
-        x: descriptor.initial.x,
-        y: descriptor.initial.y,
+        x: process_descriptor.x,
+        y: process_descriptor.y,
+        name: 'process',
         draggable: true,
-        scale: {
-            x: scale,
-            y: scale
-        },
         // custom attribute
-        startScale: scale,
-        final: descriptor.final,
-        initial: descriptor.initial
+        initial: {
+            x: process_descriptor.x,
+            y: process_descriptor.y
+        }
     });
 
     process.add(new Konva.Tag({
-        fill: descriptor.color,
+        fill: process_descriptor.color,
         opacity: 0.8,
         shadowColor: 'black',
         shadowBlur: 10,
@@ -50,17 +29,30 @@ function addProcess(layer, descriptor) {
     }));
 
     process.add(new Konva.Text({
-        text: descriptor.text,
+        text: process_descriptor.text,
         align: 'center',
-
         fontFamily: 'Calibri',
         fontSize: 18,
         fill: 'black',
-        height: descriptor.height,
-        width: descriptor.width
+        height: process_descriptor.height,
+        width: process_descriptor.width
     }));
 
     layer.add(process);
+}
+
+function addShadow(layer, shadow_descriptor) {
+    var shadow = new Konva.Rect({
+        x: shadow_descriptor.x,
+        y: shadow_descriptor.y,
+        height: shadow_descriptor.height,
+        width: shadow_descriptor.width,
+        fill: 'black',
+        opacity: 0.6,
+        name: 'shadow'
+    });
+
+    layer.add(shadow);
 }
 
 var stage = new Konva.Stage({
@@ -125,15 +117,8 @@ var descriptor = {
         {
             height: 100,
             width: 300,
-            cornerRadius: 10,
-            initial: {
-                x: 10,
-                y: 100
-            },
-            final: {
-                x: 400,
-                y: 100
-            },
+            x: 10,
+            y: 100,
             text: 'example text',
             code: 'example code',
             color: '#38b735'
@@ -141,15 +126,8 @@ var descriptor = {
         {
             height: 100,
             width: 300,
-            cornerRadius: 10,
-            initial: {
-                x: 10,
-                y: 300
-            },
-            final: {
-                x: 400,
-                y: 300
-            },
+            x: 10,
+            y: 300,
             text: 'example text',
             code: 'example code',
             color: '#3455b7'
@@ -157,18 +135,31 @@ var descriptor = {
         {
             height: 100,
             width: 300,
-            cornerRadius: 10,
-            initial: {
-                x: 10,
-                y: 500
-            },
-            final: {
-                x: 400,
-                y: 500
-            },
+            x: 10,
+            y: 500,
             text: 'example text',
             code: 'example code',
             color: '#b72c35'
+        }
+    ],
+    shadows: [
+        {
+            height: 100,
+            width: 300,
+            x: 400,
+            y: 100
+        },
+        {
+            height: 100,
+            width: 300,
+            x: 400,
+            y: 300
+        },
+        {
+            height: 100,
+            width: 300,
+            x: 400,
+            y: 500
         }
     ],
     lines: [
@@ -183,6 +174,10 @@ function load_descriptor(descriptor) {
     descriptor.processes.forEach(function (value) {
         addProcess(layer, value);
     });
+
+    descriptor.shadows.forEach(function (value) {
+        addShadow(layer, value);
+    })
 }
 
 load_descriptor(descriptor);
@@ -198,7 +193,7 @@ stage.on('click', function (evt) {
         console.log(to_remove);
 
         to_remove.forEach(function (value) {
-            value.destroy();
+            value.hide();
         });
         this.draw();
     }
@@ -216,10 +211,7 @@ stage.on('dragstart', function (evt) {
     shape.to({
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseIn,
-        scale: {
-            x: shape.getAttr('startScale') * 1.2,
-            y: shape.getAttr('startScale') * 1.2
-        },
+        scale: 1,
         shadowOffset: {
             x: 15,
             y: 15
@@ -228,33 +220,42 @@ stage.on('dragstart', function (evt) {
 });
 
 stage.on('dragend', function (evt) {
-    var shape = evt.target;
-    shape.moveTo(layer);
+    var process = evt.target;
+    process.moveTo(layer);
     stage.draw();
     var params = {
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseOut,
-        scaleX: shape.getAttr('startScale'),
-        scaleY: shape.getAttr('startScale'),
+        scale: 1,
         shadowOffsetX: 5,
         shadowOffsetY: 5
     };
 
-    console.log(shape);
+    var shadows = this.find('.shadow');
 
-    if (!is_near_destination(shape)) {
-        params.x = shape.attrs.initial.x;
-        params.y = shape.attrs.initial.y;
+    var near_shadow = null;
+
+    shadows.forEach(function (shadow) {
+        if (is_near_destination(process, shadow)) {
+            console.log('found near shadow');
+            near_shadow = shadow;
+        }
+    });
+
+    if (near_shadow == null) {
+        params.x = process.attrs.initial.x;
+        params.y = process.attrs.initial.y;
     } else {
-        params.x = shape.attrs.final.x;
-        params.y = shape.attrs.final.y;
+        params.x = near_shadow.attrs.x;
+        params.y = near_shadow.attrs.y;
     }
     console.log(params);
-    shape.to(params);
+    process.to(params);
 });
 
-function is_near_destination(shape) {
-    var x = shape.attrs.final.x - shape.attrs.x;
-    var y = shape.attrs.final.y - shape.attrs.y;
-    return Math.sqrt(x * x + y * y) < 50;
+function is_near_destination(process, shape) {
+    var thresh = 50;
+    var x = shape.attrs.x - process.attrs.x;
+    var y = shape.attrs.y - process.attrs.y;
+    return Math.sqrt(x * x + y * y) < thresh;
 }
