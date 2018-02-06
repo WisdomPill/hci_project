@@ -14,6 +14,21 @@ var dragLayer = new Konva.Layer({});
 
 layer.add(new Konva.Rect({
         x: 1000,
+        y: 100,
+        height: 50,
+        width: 50,
+        fill: 'green',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        id: 'reset_button'
+    }
+));
+
+layer.add(new Konva.Rect({
+        x: 1000,
         y: 300,
         height: 50,
         width: 50,
@@ -42,7 +57,7 @@ layer.add(new Konva.Rect({
     }
 ));
 
-var obj = new Konva.Rect({
+layer.add(new Konva.Rect({
         x: 1000,
         y: 200,
         height: 50,
@@ -53,10 +68,9 @@ var obj = new Konva.Rect({
             x: 1,
             y: 1
         },
-        name: 'remove_button'
+        id: 'remove_button'
     }
-);
-layer.add(obj);
+));
 
 var descriptor = {
     error_message: '',
@@ -131,15 +145,38 @@ stage.add(layer, dragLayer);
 stage.on('click', function (evt) {
     var shape = evt.target;
     console.log(shape.attrs.name);
-    if (shape.attrs.name === 'remove_button') {
-        var to_remove = this.find('.remove_me');
+    switch (shape.attrs.id) {
+        case 'remove_button':
 
-        console.log(to_remove);
+            var to_remove = this.find('.remove_me');
 
-        to_remove.forEach(function (value) {
-            value.destroy();
-        });
-        this.draw();
+            to_remove.forEach(function (value) {
+                value.destroy();
+            });
+            this.draw();
+
+            break;
+        case 'reset_button':
+
+            var processes = this.find('.process');
+
+            processes.forEach(function (process) {
+                console.log(process);
+                var params = {
+                    duration: 0.5,
+                    easing: Konva.Easings.ElasticEaseOut,
+                    x: process.attrs.initial.x,
+                    y: process.attrs.initial.y
+                };
+
+                process.to(params);
+            });
+            this.draw();
+
+
+            break;
+        default:
+            break;
     }
 });
 
