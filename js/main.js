@@ -1,3 +1,69 @@
+var descriptor = {
+    error_message: '',
+    background_img: '',
+    processes: [
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 10,
+            y: 100,
+            text: 'example text',
+            code: 'example code',
+            color: '#38b735'
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 10,
+            y: 300,
+            text: 'example text',
+            code: 'example code',
+            color: '#3455b7'
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 10,
+            y: 500,
+            text: 'example text',
+            code: 'example code',
+            color: '#b72c35'
+        }
+    ],
+    shadows: [
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: 100
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: 300
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: 500
+        }
+    ],
+    lines: [
+        {
+            start: {},
+            end: {}
+        }
+    ]
+};
+
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -72,72 +138,6 @@ layer.add(new Konva.Rect({
     }
 ));
 
-var descriptor = {
-    error_message: '',
-    background_img: '',
-    processes: [
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 10,
-            y: 100,
-            text: 'example text',
-            code: 'example code',
-            color: '#38b735'
-        },
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 10,
-            y: 300,
-            text: 'example text',
-            code: 'example code',
-            color: '#3455b7'
-        },
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 10,
-            y: 500,
-            text: 'example text',
-            code: 'example code',
-            color: '#b72c35'
-        }
-    ],
-    shadows: [
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 400,
-            y: 100
-        },
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 400,
-            y: 300
-        },
-        {
-            shape: 'rectangle',
-            height: 100,
-            width: 300,
-            x: 400,
-            y: 500
-        }
-    ],
-    lines: [
-        {
-            start: {},
-            end: {}
-        }
-    ]
-};
-
 load_descriptor(descriptor);
 
 stage.add(layer, dragLayer);
@@ -161,7 +161,6 @@ stage.on('click', function (evt) {
             var processes = this.find('.process');
 
             processes.forEach(function (process) {
-                console.log(process);
                 var params = {
                     duration: 0.5,
                     easing: Konva.Easings.ElasticEaseOut,
@@ -232,17 +231,16 @@ stage.on('dragend', function (evt) {
         params.x = near_shadow.attrs.x;
         params.y = near_shadow.attrs.y;
     }
-    console.log(params);
     process.to(params);
 });
 
 function load_descriptor(descriptor) {
-    descriptor.processes.forEach(function (value) {
-        addProcess(layer, value);
+    descriptor.processes.forEach(function (process_descriptor) {
+        addProcess(layer, process_descriptor);
     });
 
-    descriptor.shadows.forEach(function (value) {
-        addShadow(layer, value);
+    descriptor.shadows.forEach(function (shadow_descriptor) {
+        addShadow(layer, shadow_descriptor);
     })
 }
 
