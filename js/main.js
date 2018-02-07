@@ -6,7 +6,7 @@ var descriptor = {
             shape: 'rectangle',
             height: 50,
             width: 150,
-            x: 10,
+            x: 30,
             y: 100,
             text: 'example text',
             code: 'example code',
@@ -16,7 +16,7 @@ var descriptor = {
             shape: 'rectangle',
             height: 50,
             width: 150,
-            x: 10,
+            x: 30,
             y: 300,
             text: 'example text',
             code: 'example code',
@@ -26,7 +26,7 @@ var descriptor = {
             shape: 'diamond',
             height: 50,
             width: 150,
-            x: 10,
+            x: 30,
             y: 500,
             text: 'example text',
             code: 'example code',
@@ -60,6 +60,23 @@ var descriptor = {
         {
             start: {},
             end: {}
+        }
+    ],
+    pseudocode: [
+        {
+            x: 600,
+            y: 100,
+            text: 'simpleText = new Konva.Text({})'
+        },
+        {
+            x: 600,
+            y: 300,
+            text: 'simpleText = new Konva.Text({})'
+        },
+        {
+            x: 600,
+            y: 500,
+            text: 'simpleText = new Konva.Text({})'
         }
     ]
 };
@@ -95,6 +112,21 @@ layer.add(new Konva.Rect({
 
 layer.add(new Konva.Rect({
         x: 1000,
+        y: 200,
+        height: 50,
+        width: 50,
+        fill: 'red',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        id: 'remove_button'
+    }
+));
+
+layer.add(new Konva.Rect({
+        x: 1000,
         y: 300,
         height: 50,
         width: 50,
@@ -104,7 +136,7 @@ layer.add(new Konva.Rect({
             x: 1,
             y: 1
         },
-        name: 'remove_me'
+        id: 'text_button'
     }
 ));
 
@@ -120,21 +152,6 @@ layer.add(new Konva.Rect({
             y: 1
         },
         name: 'remove_me'
-    }
-));
-
-layer.add(new Konva.Rect({
-        x: 1000,
-        y: 200,
-        height: 50,
-        width: 50,
-        fill: 'red',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        id: 'remove_button'
     }
 ));
 
@@ -167,6 +184,7 @@ stage.on('click', function (evt) {
         case 'reset_button':
 
             var processes = this.find('.process');
+            var show_pseudocodes = this.find('.pseudocode');
 
             processes.forEach(function (process) {
                 var params = {
@@ -178,10 +196,35 @@ stage.on('click', function (evt) {
 
                 process.to(params);
             });
+
+            show_pseudocodes.forEach(function (pseudocodes){
+                pseudocodes.opacity(0);
+            });
+
             this.draw();
+
+            break;
+        case 'text_button':
+
+            var show_pseudocodes = this.find('.pseudocode');
+
+            var offset = 0;
+
+            show_pseudocodes.forEach(function (pseudocodes){
+                offset+=0.5;
+                var params = {
+                    duration: offset,
+                    easing: Konva.Easings.Linear,
+                    opacity: 1
+
+                };
+                pseudocodes.to(params);
+
+            });
 
 
             break;
+
         default:
             break;
     }
@@ -248,6 +291,10 @@ function load_descriptor(descriptor, processes_group, shadows_group, pseudocode_
 
     descriptor.shadows.forEach(function (shadow_descriptor) {
         addShadow(shadows_group, shadow_descriptor);
+    });
+
+    descriptor.pseudocode.forEach(function (pseudocode_descriptor) {
+        addPseudocode(pseudocode_group, pseudocode_descriptor);
     })
 }
 
@@ -360,6 +407,25 @@ function addShadow(shadows_group, shadow_descriptor) {
     }
 
     shadows_group.add(shadow);
+}
+
+function addPseudocode(pseudocode_group, pseudocode_descriptor) {
+
+    var simpleText = new Konva.Text({
+        x: pseudocode_descriptor.x,
+        y: pseudocode_descriptor.y,
+        text: pseudocode_descriptor.text,
+        name: 'pseudocode',
+        fontSize: 18,
+        fontFamily: 'Menlo',
+        fill: 'black',
+        opacity: 0
+    });
+
+    console.log(simpleText.getAbsoluteOpacity());
+
+    pseudocode_group.add(simpleText);
+
 }
 
 function is_near_matching_shadow(process, shadow) {
