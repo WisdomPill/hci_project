@@ -23,7 +23,7 @@ var descriptor = {
             color: '#3455b7'
         },
         {
-            shape: 'rectangle',
+            shape: 'diamond',
             height: 50,
             width: 150,
             x: 10,
@@ -49,7 +49,7 @@ var descriptor = {
             y: 300
         },
         {
-            shape: 'rectangle',
+            shape: 'diamond',
             height: 50,
             width: 150,
             x: 300,
@@ -138,13 +138,21 @@ layer.add(new Konva.Rect({
     }
 ));
 
-load_descriptor(descriptor);
+level_group = new Konva.Group({});
+layer.add(level_group);
+processes_group = new Konva.Group({});
+level_group.add(processes_group);
+shadows_group = new Konva.Group({});
+level_group.add(shadows_group);
+pseudocode_group = new Konva.Group({});
+level_group.add(pseudocode_group);
+
+load_descriptor(descriptor, processes_group, shadows_group, pseudocode_group);
 
 stage.add(layer, dragLayer);
 
 stage.on('click', function (evt) {
     var shape = evt.target;
-    console.log(shape.attrs.name);
     switch (shape.attrs.id) {
         case 'remove_button':
 
@@ -219,7 +227,6 @@ stage.on('dragend', function (evt) {
 
     shadows.forEach(function (shadow) {
         if (is_near_matching_shadow(process, shadow)) {
-            console.log('found near shadow');
             near_shadow = shadow;
         }
     });
@@ -234,17 +241,51 @@ stage.on('dragend', function (evt) {
     process.to(params);
 });
 
-function load_descriptor(descriptor) {
+function load_descriptor(descriptor, processes_group, shadows_group, pseudocode_group) {
     descriptor.processes.forEach(function (process_descriptor) {
-        addProcess(layer, process_descriptor);
+        addProcess(processes_group, process_descriptor);
     });
 
     descriptor.shadows.forEach(function (shadow_descriptor) {
-        addShadow(layer, shadow_descriptor);
+        addShadow(shadows_group, shadow_descriptor);
     })
 }
 
-function addProcess(layer, process_descriptor) {
+function addProcess(processes_group, process_descriptor) {
+    var process_group = new Konva.Group({});
+
+    var y = process_descriptor.y;
+    var x = process_descriptor.x;
+    var width = process_descriptor.width;
+    var height = process_descriptor.height;
+    var process = null;
+    if (process_descriptor.shape === 'diamond') {
+        var half_height = height / 2;
+        var half_width = width / 2;
+        process = new Konva.Line({
+            points: [x, y + half_height, x + half_width, y, x + width, y + half_height, x + half_width, y + height],
+            // x: x,
+            // y: y,
+            height: height,
+            width: width,
+            closed: true,
+            fill: 'black',
+            opacity: 0.6,
+            name: 'process'
+        });
+    } else {
+        process = new Konva.Rect({
+            x: x,
+            y: y,
+            height: height,
+            width: width,
+            fill: 'black',
+            opacity: 0.6,
+            name: 'process'
+        });
+    }
+
+
     var process = new Konva.Label({
         x: process_descriptor.x,
         y: process_descriptor.y,
@@ -281,33 +322,50 @@ function addProcess(layer, process_descriptor) {
         width: process_descriptor.width
     }));
 
-    layer.add(process);
+    processes_group.add(process);
 }
 
-function addShadow(layer, shadow_descriptor) {
-    var shadow = new Konva.Rect({
-        x: shadow_descriptor.x,
-        y: shadow_descriptor.y,
-        height: shadow_descriptor.height,
-        width: shadow_descriptor.width,
-        fill: 'black',
-        opacity: 0.6,
-        name: 'shadow'
-    });
+function addShadow(shadows_group, shadow_descriptor) {
+    var shadow_group = new Konva.Group({});
 
-    layer.add(shadow);
+    var y = shadow_descriptor.y;
+    var x = shadow_descriptor.x;
+    var width = shadow_descriptor.width;
+    var height = shadow_descriptor.height;
+    var shadow = null;
+    if (shadow_descriptor.shape === 'diamond') {
+        var half_height = height / 2;
+        var half_width = width / 2;
+        shadow = new Konva.Line({
+            points: [x, y + half_height, x + half_width, y, x + width, y + half_height, x + half_width, y + height],
+            // x: x,
+            // y: y,
+            height: height,
+            width: width,
+            closed: true,
+            fill: 'black',
+            opacity: 0.3,
+            name: 'shadow'
+        });
+    } else {
+        shadow = new Konva.Rect({
+            x: x,
+            y: y,
+            height: height,
+            width: width,
+            fill: 'black',
+            opacity: 0.3,
+            name: 'shadow'
+        });
+    }
+
+    shadows_group.add(shadow);
 }
 
 function is_near_matching_shadow(process, shadow) {
     var thresh = 50;
     var process_center = calculate_shape_center(process);
-    console.log(process);
-    console.log('process');
-    console.log(process_center);
     var shadow_center = calculate_shape_center(shadow);
-    console.log(shadow);
-    console.log('shadow');
-    console.log(shadow_center);
     var x = shadow_center.x - process_center.x;
     var y = shadow_center.y - process_center.y;
     return Math.sqrt(x * x + y * y) < thresh;
