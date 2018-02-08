@@ -24,6 +24,21 @@ stage.on('click', function (evt) {
 
             break;
 
+        case 'compile_button':
+
+            var shadows = this.find('.shadow');
+
+            shadows.forEach(function (value) {
+                if (!value.answered){
+                    console.log('Shadow ' + value.index + ' does not have an answer');
+                }
+                if (!value.right){
+                    console.log('Shadow ' + value.index + ' does not have the right answer');
+                }
+            });
+
+            break;
+
         default:
             break;
     }
@@ -69,7 +84,10 @@ stage.on('dragend', function (evt) {
         duration: 0.5,
         easing: Konva.Easings.BounceEaseOut,
         x: 0,
-        y: 0
+        y: 0,
+        onFinish: function () {
+            update_answers(stage);
+        }
     };
 
     if (near_shadow == null) {
@@ -96,6 +114,8 @@ stage.on('dragend', function (evt) {
         };
         value.to(params);
     });
+
+    // update_answers(this);
 });
 
 

@@ -53,7 +53,7 @@ var descriptor = {
             y: 500
         }
     ],
-    lines: [
+    arrows: [
         {
             x: 375,
             y: 150,

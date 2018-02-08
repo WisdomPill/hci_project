@@ -11,6 +11,21 @@ var layer = new Konva.Layer({});
 var dragLayer = new Konva.Layer({});
 
 layer.add(new Konva.Rect({
+        x: 900,
+        y: 100,
+        height: 50,
+        width: 50,
+        fill: 'cyan',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        id: 'compile_button'
+    }
+));
+
+layer.add(new Konva.Rect({
         x: 1000,
         y: 100,
         height: 50,
@@ -22,6 +37,21 @@ layer.add(new Konva.Rect({
             y: 1
         },
         id: 'reset_button'
+    }
+));
+
+layer.add(new Konva.Rect({
+        x: 900,
+        y: 200,
+        height: 50,
+        width: 50,
+        fill: 'black',
+        opacity: 0.6,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        id: 'popup_button'
     }
 ));
 
@@ -70,18 +100,20 @@ layer.add(new Konva.Rect({
     }
 ));
 
-level_group = new Konva.Group({});
+var level_group = new Konva.Group({});
 layer.add(level_group);
-processes_group = new Konva.Group({});
+var processes_group = new Konva.Group({});
 level_group.add(processes_group);
-shadows_group = new Konva.Group({});
+var shadows_group = new Konva.Group({});
 level_group.add(shadows_group);
-lines_group = new Konva.Group({});
+var lines_group = new Konva.Group({});
 level_group.add(lines_group);
-pseudocode_group = new Konva.Group({});
-level_group.add(pseudocode_group);
+var pseudo_code_group = new Konva.Group({});
+level_group.add(pseudo_code_group);
+var hud_group = new Konva.Group({});
+layer.add(hud_group);
 
-load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group);
+load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudo_code_group);
 
 stage.add(layer, dragLayer);
 

@@ -1,5 +1,5 @@
 //TODO remove this function as it is implemted only for debug purposes
-function show_pseudo_codes(stage){
+function show_pseudo_codes(stage) {
     var pseudo_codes = stage.find('.pseudo_code');
 
     pseudo_codes.forEach(function (pseudo_code) {
@@ -40,24 +40,24 @@ function reposition_processes(stage) {
 }
 
 function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
-    descriptor.processes.forEach(function (process_descriptor) {
-        add_process(processes_group, process_descriptor);
+    descriptor.processes.forEach(function (process_descriptor, index) {
+        add_process(processes_group, process_descriptor, index);
     });
 
-    descriptor.shadows.forEach(function (shadow_descriptor) {
-        add_shadow(shadows_group, shadow_descriptor);
+    descriptor.shadows.forEach(function (shadow_descriptor, index) {
+        add_shadow(shadows_group, shadow_descriptor, index);
     });
 
-    descriptor.lines.forEach(function (lines_descriptor) {
-        add_lines(lines_group, lines_descriptor);
+    descriptor.arrows.forEach(function (arrow_descriptor) {
+        add_arrow(lines_group, arrow_descriptor);
     });
 
-    descriptor.pseudo_code.forEach(function (pseudocode_descriptor) {
-        add_pseudo_code(pseudocode_group, pseudocode_descriptor);
+    descriptor.pseudo_code.forEach(function (pseudo_code_descriptor, index) {
+        add_pseudo_code(pseudocode_group, pseudo_code_descriptor, index);
     })
 }
 
-function add_process(group, descriptor) {
+function add_process(group, descriptor, index) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -75,6 +75,7 @@ function add_process(group, descriptor) {
         },
         name: 'process',
         shape: shape,
+        index: index,
         draggable: true
     });
 
@@ -136,7 +137,7 @@ function add_process(group, descriptor) {
     group.add(inner_group);
 }
 
-function add_shadow(group, descriptor) {
+function add_shadow(group, descriptor, index) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -148,6 +149,9 @@ function add_shadow(group, descriptor) {
         width: width,
         height: height,
         name: 'shadow',
+        answered: false,
+        right: false,
+        index: index,
         shape: descriptor.shape
     });
 
@@ -180,7 +184,7 @@ function add_shadow(group, descriptor) {
     group.add(inner_group);
 }
 
-function add_lines(group, descriptor) {
+function add_arrow(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
 
@@ -189,26 +193,26 @@ function add_lines(group, descriptor) {
         y: y
     });
 
-    var line = new Konva.Arrow({
+    var arrow = new Konva.Arrow({
         points: descriptor.points,
         fill: 'black',
         stroke: 'black',
         strokeWidth: 4
     });
 
-    inner_group.add(line);
+    inner_group.add(arrow);
 
     group.add(inner_group);
 }
 
-function add_pseudo_code(group, descriptor) {
-
+function add_pseudo_code(group, descriptor, index) {
     var y = descriptor.y;
     var x = descriptor.x;
 
     var inner_group = new Konva.Group({
         x: x,
-        y: y
+        y: y,
+        index: index
     });
 
     var pseudo_code = new Konva.Text({
@@ -225,7 +229,49 @@ function add_pseudo_code(group, descriptor) {
     inner_group.add(pseudo_code);
 
     group.add(inner_group);
+}
 
+function update_answers(stage) {
+    // console.log(stage);
+    var processes = stage.find('.process');
+    var shadows = stage.find('.shadow');
+
+    processes.forEach(function (process, index) {
+        if (is_right_answer(shadows[index], process)){
+            shadows[index].attrs.answered = true;
+        }
+    });
+
+    // processes.forEach(function (process, index) {
+    //     console.log('Process ' + process.children[1].attrs.text + ' with index ' + index + ' foreach and index '
+    //         + process.attrs.index);
+    // });
+
+
+    shadows.forEach(function (shadow, index, array) {
+        array[index].attrs.right = is_right_answer(shadow, processes[index]);
+        // console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
+        //     + ' answered ' + shadow.attrs.answered + ' right ' + shadow.attrs.right);
+    });
+
+    // shadows.forEach(function (shadow, index) {
+    //     console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
+    //         + ' answered ' + shadow.attrs.answered);
+    // });
+}
+
+function is_right_answer(shadow, process){
+    if (is_answered(shadow, process)){
+        return shadow.attrs.index === process.attrs.index;
+    }
+    return false;
+}
+
+function is_answered(shadow, process) {
+    var same_x = process.attrs.x === shadow.attrs.x;
+    var same_y = process.attrs.y === shadow.attrs.y;
+
+    return same_x && same_y;
 }
 
 function is_near_matching_shadow(process, shadow) {
