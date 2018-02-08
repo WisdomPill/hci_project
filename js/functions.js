@@ -121,7 +121,7 @@ function add_process(group, descriptor, index) {
 
     inner_group.add(new Konva.Text({
             x: 0,
-            y: (height/2)-7,
+            y: height / 2 - 7,
             height: height,
             width: width,
             text: descriptor.text,
@@ -152,7 +152,11 @@ function add_shadow(group, descriptor, index) {
         answered: false,
         right: false,
         index: index,
-        shape: descriptor.shape
+        shape: descriptor.shape,
+        initial_position: {
+            x: x,
+            y: y
+        }
     });
 
     if (descriptor.shape === 'diamond') {
@@ -237,7 +241,7 @@ function update_answers(stage) {
     var shadows = stage.find('.shadow');
 
     processes.forEach(function (process, index) {
-        if (is_right_answer(shadows[index], process)){
+        if (is_right_answer(shadows[index], process)) {
             shadows[index].attrs.answered = true;
         }
     });
@@ -260,8 +264,8 @@ function update_answers(stage) {
     // });
 }
 
-function is_right_answer(shadow, process){
-    if (is_answered(shadow, process)){
+function is_right_answer(shadow, process) {
+    if (is_answered(shadow, process)) {
         return shadow.attrs.index === process.attrs.index;
     }
     return false;
@@ -280,7 +284,7 @@ function is_near_matching_shadow(process, shadow) {
     var shadow_center = calculate_shape_center(shadow);
     var x = shadow_center.x - process_center.x;
     var y = shadow_center.y - process_center.y;
-    return Math.sqrt(x * x + y * y) < thresh && process.attrs.shape === shadow.attrs.shape;
+    return Math.sqrt(x * x + y * y) < thresh && process.attrs.shape === shadow.attrs.shape && !shadow.attrs.answered;
 }
 
 function calculate_shape_center(shape) {

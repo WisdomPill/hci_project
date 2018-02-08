@@ -51,6 +51,7 @@ layer.add(new Konva.Rect({
             x: 1,
             y: 1
         },
+        rotation: 45,
         id: 'popup_button'
     }
 ));

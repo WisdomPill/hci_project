@@ -29,13 +29,69 @@ stage.on('click', function (evt) {
             var shadows = this.find('.shadow');
 
             shadows.forEach(function (value) {
-                if (!value.answered){
+                if (!value.answered) {
                     console.log('Shadow ' + value.index + ' does not have an answer');
                 }
-                if (!value.right){
+                if (!value.right) {
                     console.log('Shadow ' + value.index + ' does not have the right answer');
                 }
             });
+
+            break;
+        case 'popup_button':
+
+            var shadows = this.find('.shadow');
+
+            var f = 'position';
+
+            var duration = 500;
+
+            var target = new Date();
+            target.setMilliseconds(target.getMilliseconds() + duration);
+
+            var delta = target - new Date();
+
+            var stop = false;
+
+            console.log(delta);
+
+            var animation = new Konva.Animation(function (frame) {
+                var t = 1 - (target - new Date()) / delta;
+                console.log(t);
+
+                if (t > 1) {
+                    stop = true;
+                    t = 1;
+                }
+
+                var periodicity = 5;
+
+                shadows.forEach(function (shadow) {
+                    switch (f) {
+                        case 'angle':
+                            var angle = 30;
+                            var target_angle = Math.sin(t * Math.PI * 2 * periodicity) * angle;
+                            console.log(angle);
+                            console.log(target_angle);
+                            shadow.attrs.rotation = (target_angle);
+                            break;
+                        case 'position':
+                            var displacement = 5;
+                            var initial_x = shadow.attrs.initial_position.x;
+                            shadow.setX(initial_x + Math.sin(t * Math.PI * 2 * periodicity) * displacement);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+                if (stop) {
+                    animation.stop();
+                }
+
+            }, layer);
+
+            animation.start();
 
             break;
 
@@ -121,7 +177,6 @@ stage.on('dragend', function (evt) {
 
 stage.on('mouseenter', function (evt) {
     var processes = evt.target;
-    console.log(processes);
     if (processes.parent.attrs.name === 'process')
         stage.container().style.cursor = 'pointer';
 });
