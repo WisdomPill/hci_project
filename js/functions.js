@@ -120,13 +120,13 @@ function add_process(group, descriptor) {
 
     inner_group.add(new Konva.Text({
             x: 0,
-            y: 0,
+            y: (height/2)-7,
             height: height,
             width: width,
             text: descriptor.text,
             align: 'center',
             fontFamily: 'Calibri',
-            fontSize: 18,
+            fontSize: 15,
             fill: 'black',
             scaleX: 1,
             scaleY: 1

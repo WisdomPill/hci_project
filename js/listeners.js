@@ -101,6 +101,7 @@ stage.on('dragend', function (evt) {
 
 stage.on('mouseenter', function (evt) {
     var processes = evt.target;
+    console.log(processes);
     if (processes.parent.attrs.name === 'process')
         stage.container().style.cursor = 'pointer';
 });
