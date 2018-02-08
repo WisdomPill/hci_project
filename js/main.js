@@ -58,8 +58,14 @@ var descriptor = {
     ],
     lines: [
         {
-            start: {},
-            end: {}
+            x:375,
+            y:150,
+            points: [0, 5, 0, 140]
+        },
+        {
+            x:375,
+            y:350,
+            points: [0, 5, 0, 140]
         }
     ],
     pseudocode: [
@@ -161,10 +167,12 @@ processes_group = new Konva.Group({});
 level_group.add(processes_group);
 shadows_group = new Konva.Group({});
 level_group.add(shadows_group);
+lines_group = new Konva.Group({});
+level_group.add(lines_group);
 pseudocode_group = new Konva.Group({});
 level_group.add(pseudocode_group);
 
-load_descriptor(descriptor, processes_group, shadows_group, pseudocode_group);
+load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group);
 
 stage.add(layer, dragLayer);
 
@@ -286,13 +294,17 @@ stage.on('dragend', function (evt) {
     process_group.to(params);
 });
 
-function load_descriptor(descriptor, processes_group, shadows_group, pseudocode_group) {
+function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
     descriptor.processes.forEach(function (process_descriptor) {
         addProcess(processes_group, process_descriptor);
     });
 
     descriptor.shadows.forEach(function (shadow_descriptor) {
         addShadow(shadows_group, shadow_descriptor);
+    });
+
+    descriptor.lines.forEach(function (lines_descriptor) {
+        addLines(lines_group, lines_descriptor);
     });
 
     descriptor.pseudocode.forEach(function (pseudocode_descriptor) {
@@ -421,12 +433,33 @@ function addShadow(group, descriptor) {
     group.add(inner_group);
 }
 
-function addPseudocode(pseudocode_group, pseudocode_descriptor) {
+function addLines(group, descriptor) {
+    var y = descriptor.y;
+    var x = descriptor.x;
+
+    var inner_group = new Konva.Group({
+        x: x,
+        y: y
+    });
+
+    var line = new Konva.Arrow({
+        points: descriptor.points,
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 4
+    });
+
+    inner_group.add(line);
+
+    group.add(inner_group);
+}
+
+function addPseudocode(group, descriptor) {
 
     var simpleText = new Konva.Text({
-        x: pseudocode_descriptor.x,
-        y: pseudocode_descriptor.y,
-        text: pseudocode_descriptor.text,
+        x: descriptor.x,
+        y: descriptor.y,
+        text: descriptor.text,
         name: 'pseudocode',
         fontSize: 18,
         fontFamily: 'Menlo',
@@ -434,9 +467,7 @@ function addPseudocode(pseudocode_group, pseudocode_descriptor) {
         opacity: 0
     });
 
-    console.log(simpleText.getAbsoluteOpacity());
-
-    pseudocode_group.add(simpleText);
+    group.add(simpleText);
 
 }
 
