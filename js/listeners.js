@@ -20,7 +20,7 @@ stage.on('click', function (evt) {
             break;
         case 'text_button':
 
-            hide_pseudo_codes(this);
+            show_pseudo_codes(this);
 
             break;
 

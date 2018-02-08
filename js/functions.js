@@ -1,11 +1,25 @@
-function hide_pseudo_codes(stage) {
-    var pseudo_codes = stage.find('.pseudocode');
+//TODO remove this function as it is implemted only for debug purposes
+function show_pseudo_codes(stage){
+    var pseudo_codes = stage.find('.pseudo_code');
 
     pseudo_codes.forEach(function (pseudo_code) {
         var params = {
             duration: 0.5,
             easing: Konva.Easings.Linear,
             opacity: 1
+        };
+        pseudo_code.to(params);
+    });
+}
+
+function hide_pseudo_codes(stage) {
+    var pseudo_codes = stage.find('.pseudo_code');
+
+    pseudo_codes.forEach(function (pseudo_code) {
+        var params = {
+            duration: 0.5,
+            easing: Konva.Easings.Linear,
+            opacity: 0
         };
         pseudo_code.to(params);
     });
@@ -201,7 +215,7 @@ function add_pseudo_code(group, descriptor) {
         x: 0,
         y: 0,
         text: descriptor.text,
-        name: 'pseudocode',
+        name: 'pseudo_code',
         fontSize: 18,
         fontFamily: 'Menlo',
         fill: 'black',
