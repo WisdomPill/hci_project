@@ -8,8 +8,7 @@ var descriptor = {
             width: 150,
             x: 30,
             y: 100,
-            text: 'example text',
-            code: 'example code',
+            text: 'Sono verde',
             color: '#38b735'
         },
         {
@@ -18,8 +17,7 @@ var descriptor = {
             width: 150,
             x: 30,
             y: 300,
-            text: 'example text',
-            code: 'example code',
+            text: 'Io blu',
             color: '#3455b7'
         },
         {
@@ -28,8 +26,7 @@ var descriptor = {
             width: 150,
             x: 30,
             y: 500,
-            text: 'example text',
-            code: 'example code',
+            text: 'Io sono rosso!',
             color: '#b72c35'
         }
     ],
@@ -230,8 +227,8 @@ stage.on('click', function (evt) {
 
             });
 
-
             break;
+
 
         default:
             break;
@@ -292,6 +289,18 @@ stage.on('dragend', function (evt) {
         params.y = near_shadow.attrs.y;
     }
     process_group.to(params);
+});
+
+stage.on('mouseenter', function (evt) {
+    var processes = evt.target;
+    if (processes.parent.attrs.name == 'process')
+        stage.container().style.cursor = 'pointer';
+});
+
+stage.on('mouseleave', function (evt) {
+    var processes = evt.target;
+    if (processes.parent.attrs.name == 'process')
+        stage.container().style.cursor = 'default';
 });
 
 function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
