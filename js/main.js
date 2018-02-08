@@ -55,13 +55,13 @@ var descriptor = {
     ],
     lines: [
         {
-            x:375,
-            y:150,
+            x: 375,
+            y: 150,
             points: [0, 5, 0, 140]
         },
         {
-            x:375,
-            y:350,
+            x: 375,
+            y: 350,
             points: [0, 5, 0, 140]
         }
     ],
@@ -86,8 +86,6 @@ var descriptor = {
 
 var width = window.innerWidth;
 var height = window.innerHeight;
-
-var tween = null;
 
 var stage = new Konva.Stage({
     container: 'container',
@@ -189,8 +187,6 @@ stage.on('click', function (evt) {
         case 'reset_button':
 
             var processes = this.find('.process');
-            var show_pseudocodes = this.find('.pseudocode');
-
             processes.forEach(function (process) {
                 var params = {
                     duration: 0.5,
@@ -202,30 +198,12 @@ stage.on('click', function (evt) {
                 process.to(params);
             });
 
-            show_pseudocodes.forEach(function (pseudocodes) {
-                pseudocodes.opacity(0);
-            });
-
-            this.draw();
+            hide_pseudo_codes(this);
 
             break;
         case 'text_button':
 
-            var show_pseudocodes = this.find('.pseudocode');
-
-            var offset = 0;
-
-            show_pseudocodes.forEach(function (pseudocodes) {
-                offset += 0.5;
-                var params = {
-                    duration: offset,
-                    easing: Konva.Easings.Linear,
-                    opacity: 1
-
-                };
-                pseudocodes.to(params);
-
-            });
+            hide_pseudo_codes(this);
 
             break;
 
@@ -236,60 +214,87 @@ stage.on('click', function (evt) {
 });
 
 stage.on('dragstart', function (evt) {
-    var shape = evt.target;
-    shape.moveTo(dragLayer);
+    var group = evt.target;
+    group.moveTo(dragLayer);
     stage.draw();
 
-    if (tween) {
-        tween.pause();
-    }
-    shape.to({
-        duration: 0.5,
-        easing: Konva.Easings.ElasticEaseIn,
-        scale: 1,
-        shadowOffset: {
-            x: 15,
-            y: 15
-        }
+    group.children.forEach(function (value) {
+        var params = {
+            duration: 0.5,
+            easing: Konva.Easings.ElasticEaseOut,
+            scaleX: 1.2,
+            scaleY: 1.2,
+            shadowOffsetX: 15,
+            shadowOffsetY: 15,
+            onFinish: function () {
+                console.log('finished drag start');
+                console.log(value.getAbsoluteScale());
+            }
+        };
+        value.to(params);
     });
 });
 
 stage.on('dragend', function (evt) {
-    var process_group = evt.target;
-    process_group.moveTo(layer);
+    var group = evt.target;
+    group.moveTo(layer);
     stage.draw();
-    var params = {
-        duration: 0.5,
-        easing: Konva.Easings.ElasticEaseOut,
-        scale: 1,
-        shadowOffset: {
-            x: 5,
-            y: 5
-        },
-        onFinish: function () {
-            console.log('finished tweener')
-        }
-    };
 
     var shadows = this.find('.shadow');
 
     var near_shadow = null;
 
     shadows.forEach(function (shadow) {
-        if (is_near_matching_shadow(process_group, shadow)) {
+        if (is_near_matching_shadow(group, shadow)) {
             near_shadow = shadow;
         }
     });
 
+    var group_params = {
+        duration: 0.5,
+        easing: Konva.Easings.BounceEaseOut,
+        x: 0,
+        y: 0
+    };
+
     if (near_shadow == null) {
-        params.x = process_group.attrs.initial.x;
-        params.y = process_group.attrs.initial.y;
+        group_params.x = group.attrs.initial.x;
+        group_params.y = group.attrs.initial.y;
     } else {
-        params.x = near_shadow.attrs.x;
-        params.y = near_shadow.attrs.y;
+        group_params.x = near_shadow.attrs.x;
+        group_params.y = near_shadow.attrs.y;
     }
-    process_group.to(params);
+
+    group.to(group_params);
+
+    group.children.forEach(function (value) {
+        var params = {
+            duration: 0.5,
+            easing: Konva.Easings.BounceEaseOut,
+            scaleX: 1,
+            scaleY: 1,
+            shadowOffsetX: 5,
+            shadowOffsetY: 5,
+            onFinish: function () {
+                console.log('finished drag end');
+            }
+        };
+        value.to(params);
+    });
 });
+
+function hide_pseudo_codes(stage) {
+    var pseudo_codes = stage.find('.pseudocode');
+
+    pseudo_codes.forEach(function (pseudo_code) {
+        var params = {
+            duration: 0.5,
+            easing: Konva.Easings.Linear,
+            opacity: 1
+        };
+        pseudo_code.to(params);
+    });
+}
 
 stage.on('mouseenter', function (evt) {
     var processes = evt.target;
@@ -305,23 +310,23 @@ stage.on('mouseleave', function (evt) {
 
 function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
     descriptor.processes.forEach(function (process_descriptor) {
-        addProcess(processes_group, process_descriptor);
+        add_process(processes_group, process_descriptor);
     });
 
     descriptor.shadows.forEach(function (shadow_descriptor) {
-        addShadow(shadows_group, shadow_descriptor);
+        add_shadow(shadows_group, shadow_descriptor);
     });
 
     descriptor.lines.forEach(function (lines_descriptor) {
-        addLines(lines_group, lines_descriptor);
+        add_lines(lines_group, lines_descriptor);
     });
 
     descriptor.pseudocode.forEach(function (pseudocode_descriptor) {
-        addPseudocode(pseudocode_group, pseudocode_descriptor);
+        add_pseudo_code(pseudocode_group, pseudocode_descriptor);
     })
 }
 
-function addProcess(group, descriptor) {
+function add_process(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -356,13 +361,13 @@ function addProcess(group, descriptor) {
                 opacity: 0.8,
                 shadowColor: 'black',
                 shadowBlur: 10,
-                shadowOffset: {
-                    x: 5,
-                    y: 5
-                },
-                shadowOpacity: 0.6
-            })
-        );
+                shadowOffsetX: 5,
+                shadowOffsetY: 5,
+                shadowOpacity: 0.6,
+                scaleX: 1,
+                scaleY: 1
+            }
+        ));
     } else {
         inner_group.add(new Konva.Rect({
                 x: 0,
@@ -373,13 +378,13 @@ function addProcess(group, descriptor) {
                 opacity: 0.8,
                 shadowColor: 'black',
                 shadowBlur: 10,
-                shadowOffset: {
-                    x: 5,
-                    y: 5
-                },
-                shadowOpacity: 0.6
-            })
-        );
+                shadowOffsetX: 5,
+                shadowOffsetY: 5,
+                shadowOpacity: 0.6,
+                scaleX: 1,
+                scaleY: 1
+            }
+        ));
     }
 
     inner_group.add(new Konva.Text({
@@ -391,14 +396,16 @@ function addProcess(group, descriptor) {
             align: 'center',
             fontFamily: 'Calibri',
             fontSize: 18,
-            fill: 'black'
-        })
-    );
+            fill: 'black',
+            scaleX: 1,
+            scaleY: 1
+        }
+    ));
 
     group.add(inner_group);
 }
 
-function addShadow(group, descriptor) {
+function add_shadow(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -409,10 +416,10 @@ function addShadow(group, descriptor) {
         y: y,
         width: width,
         height: height,
-        name: 'shadow'
+        name: 'shadow',
+        shape: descriptor.shape
     });
 
-    var shadow = null;
     if (descriptor.shape === 'diamond') {
         var half_height = height / 2;
         var half_width = width / 2;
@@ -425,8 +432,8 @@ function addShadow(group, descriptor) {
                 closed: true,
                 fill: 'black',
                 opacity: 0.3
-            })
-        );
+            }
+        ));
     } else {
         inner_group.add(new Konva.Rect({
                 x: 0,
@@ -435,14 +442,14 @@ function addShadow(group, descriptor) {
                 width: width,
                 fill: 'black',
                 opacity: 0.3
-            })
-        );
+            }
+        ));
     }
 
     group.add(inner_group);
 }
 
-function addLines(group, descriptor) {
+function add_lines(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
 
@@ -463,11 +470,19 @@ function addLines(group, descriptor) {
     group.add(inner_group);
 }
 
-function addPseudocode(group, descriptor) {
+function add_pseudo_code(group, descriptor) {
 
-    var simpleText = new Konva.Text({
-        x: descriptor.x,
-        y: descriptor.y,
+    var y = descriptor.y;
+    var x = descriptor.x;
+
+    var inner_group = new Konva.Group({
+        x: x,
+        y: y
+    });
+
+    var pseudo_code = new Konva.Text({
+        x: 0,
+        y: 0,
         text: descriptor.text,
         name: 'pseudocode',
         fontSize: 18,
@@ -476,7 +491,9 @@ function addPseudocode(group, descriptor) {
         opacity: 0
     });
 
-    group.add(simpleText);
+    inner_group.add(pseudo_code);
+
+    group.add(inner_group);
 
 }
 
@@ -486,7 +503,7 @@ function is_near_matching_shadow(process, shadow) {
     var shadow_center = calculate_shape_center(shadow);
     var x = shadow_center.x - process_center.x;
     var y = shadow_center.y - process_center.y;
-    return Math.sqrt(x * x + y * y) < thresh;
+    return Math.sqrt(x * x + y * y) < thresh && process.attrs.shape === shadow.attrs.shape;
 }
 
 function calculate_shape_center(shape) {
