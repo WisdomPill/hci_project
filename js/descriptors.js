@@ -83,3 +83,117 @@ var descriptor = {
         }
     ]
 };
+
+var descriptorLevel1Starty = 20;
+var descriptorLevel1 = {
+    error_message: '',
+    background_img: '',
+    processes: [
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 30,
+            y: descriptorLevel1Starty,
+            text:'Versa l\'acqua nel bicchiere' ,
+            color: '#68d554'
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 30,
+            y: descriptorLevel1Starty + 50 *2,
+            text: 'Metti la bustina nel bicchiere' ,
+            color: '#68d554'
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 30,
+            y: descriptorLevel1Starty + 50 *4,
+            text: 'Riempi la pentola d\'acqua',
+            color: '#68d554'
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 30,
+            y: descriptorLevel1Starty + 50 *6,
+            text: 'Scalda la pentola',
+            color: '#68d554'
+        }
+    ],
+    shadows: [
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: descriptorLevel1Starty
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: descriptorLevel1Starty + 50 *2
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: descriptorLevel1Starty + 50 *4
+        },
+        {
+            shape: 'rectangle',
+            height: 50,
+            width: 150,
+            x: 300,
+            y: descriptorLevel1Starty + 50 *6
+        }
+    ],
+    arrows: [
+        {
+            x: 375,
+            y: descriptorLevel1Starty + 50,
+            points: [0, 5, 0, 42]
+        },
+        {
+            x: 375,
+            y: descriptorLevel1Starty + 50*3,
+            points: [0, 5, 0, 42]
+        },
+        {
+            x: 375,
+            y: descriptorLevel1Starty + 50*5,
+            points: [0, 5, 0, 42]
+        }
+    ],
+    pseudo_code: [
+        {
+            x: 500,
+            y: descriptorLevel1Starty,
+            text: 'simpleText = new Konva.Text({})'
+        },
+        {
+            x: 500,
+            y: descriptorLevel1Starty + 50*2,
+            text: 'simpleText = new Konva.Text({})'
+        },
+        {
+            x: 500,
+            y: descriptorLevel1Starty + 50 *4,
+            text: 'simpleText = new Konva.Text({})'
+        },
+        {
+            x: 500,
+            y: descriptorLevel1Starty + 50 *6,
+            text: 'simpleText = new Konva.Text({})'
+        }
+    ]
+};
+

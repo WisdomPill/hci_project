@@ -292,7 +292,7 @@ textarea {
 
 h3 {
     font-family: Salsa;
-    font-size: 20px;
+    font-size: 40px;
     font-style: normal;
     font-variant: normal;
     font-weight: 500;
@@ -303,4 +303,31 @@ h3 {
     padding: 0;
     overflow: hidden;
     background-color: #F0F0F0;
+}
+
+.play {
+    background-color: #f7d0bc;
+}
+
+.reset {
+    background-color: #f7edbc;
+}
+
+.help {
+    background-color: #bce5f7;
+}
+
+.leftmenu {
+    background-color: #d9eff7;
+}
+
+.title {
+    background-color: #d9eff7;
+}
+
+.imgrobot {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
 }

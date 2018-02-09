@@ -11,8 +11,8 @@ var layer = new Konva.Layer({});
 var dragLayer = new Konva.Layer({});
 
 layer.add(new Konva.Rect({
-        x: 900,
-        y: 100,
+        x: 650,
+        y: descriptorLevel1Starty,
         height: 50,
         width: 50,
         fill: 'cyan',
@@ -26,8 +26,8 @@ layer.add(new Konva.Rect({
 ));
 
 layer.add(new Konva.Rect({
-        x: 1000,
-        y: 100,
+        x: 650,
+        y: descriptorLevel1Starty + 50 *2,
         height: 50,
         width: 50,
         fill: 'green',
@@ -41,8 +41,8 @@ layer.add(new Konva.Rect({
 ));
 
 layer.add(new Konva.Rect({
-        x: 900,
-        y: 200,
+        x: 675,
+        y: descriptorLevel1Starty + 50 *4,
         height: 50,
         width: 50,
         fill: 'black',
@@ -57,8 +57,8 @@ layer.add(new Konva.Rect({
 ));
 
 layer.add(new Konva.Rect({
-        x: 1000,
-        y: 200,
+        x: 650,
+        y: descriptorLevel1Starty + 50 *6,
         height: 50,
         width: 50,
         fill: 'red',
@@ -72,8 +72,8 @@ layer.add(new Konva.Rect({
 ));
 
 layer.add(new Konva.Rect({
-        x: 1000,
-        y: 300,
+        x: 650,
+        y: descriptorLevel1Starty + 50 *8,
         height: 50,
         width: 50,
         fill: 'yellow',
@@ -87,8 +87,8 @@ layer.add(new Konva.Rect({
 ));
 
 layer.add(new Konva.Rect({
-        x: 1000,
-        y: 400,
+        x: 650,
+        y: descriptorLevel1Starty + 50 *10,
         height: 50,
         width: 50,
         fill: 'blue',
@@ -114,7 +114,7 @@ level_group.add(pseudo_code_group);
 var hud_group = new Konva.Group({});
 layer.add(hud_group);
 
-load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudo_code_group);
+load_descriptor(descriptorLevel1, processes_group, shadows_group, lines_group, pseudo_code_group);
 
 stage.add(layer, dragLayer);
 

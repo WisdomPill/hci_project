@@ -170,6 +170,11 @@ function add_shadow(group, descriptor, index) {
                 width: width,
                 closed: true,
                 fill: 'black',
+                shadowColor: 'black',
+                shadowBlur: 10,
+                shadowOffsetX: 5,
+                shadowOffsetY: 5,
+                shadowOpacity: 0.6,
                 opacity: 0.3
             }
         ));
@@ -180,6 +185,11 @@ function add_shadow(group, descriptor, index) {
                 height: height,
                 width: width,
                 fill: 'black',
+                shadowColor: 'black',
+                shadowBlur: 10,
+                shadowOffsetX: 5,
+                shadowOffsetY: 5,
+                shadowOpacity: 0.6,
                 opacity: 0.3
             }
         ));
@@ -224,7 +234,7 @@ function add_pseudo_code(group, descriptor, index) {
         y: 0,
         text: descriptor.text,
         name: 'pseudo_code',
-        fontSize: 18,
+        fontSize: 10,
         fontFamily: 'Menlo',
         fill: 'black',
         opacity: 0
