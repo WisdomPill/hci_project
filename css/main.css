@@ -290,6 +290,15 @@ textarea {
     }
 }
 
+h3 {
+    font-family: Salsa;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
+}
+
 #container {
     padding: 0;
     overflow: hidden;
