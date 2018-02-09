@@ -95,7 +95,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 30,
             y: descriptorLevel1Starty,
-            text:'Versa l\'acqua nel bicchiere' ,
+            text: 'Versa l\'acqua nel bicchiere',
             color: '#68d554'
         },
         {
@@ -103,8 +103,8 @@ var descriptorLevel1 = {
             height: 50,
             width: 150,
             x: 30,
-            y: descriptorLevel1Starty + 50 *2,
-            text: 'Metti la bustina nel bicchiere' ,
+            y: descriptorLevel1Starty + 50 * 2,
+            text: 'Metti la bustina nel bicchiere',
             color: '#68d554'
         },
         {
@@ -112,7 +112,7 @@ var descriptorLevel1 = {
             height: 50,
             width: 150,
             x: 30,
-            y: descriptorLevel1Starty + 50 *4,
+            y: descriptorLevel1Starty + 50 * 4,
             text: 'Riempi la pentola d\'acqua',
             color: '#68d554'
         },
@@ -121,7 +121,7 @@ var descriptorLevel1 = {
             height: 50,
             width: 150,
             x: 30,
-            y: descriptorLevel1Starty + 50 *6,
+            y: descriptorLevel1Starty + 50 * 6,
             text: 'Scalda la pentola',
             color: '#68d554'
         }
@@ -139,21 +139,21 @@ var descriptorLevel1 = {
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 *2
+            y: descriptorLevel1Starty + 50 * 2
         },
         {
             shape: 'rectangle',
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 *4
+            y: descriptorLevel1Starty + 50 * 4
         },
         {
             shape: 'rectangle',
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 *6
+            y: descriptorLevel1Starty + 50 * 6
         }
     ],
     arrows: [
@@ -164,12 +164,12 @@ var descriptorLevel1 = {
         },
         {
             x: 375,
-            y: descriptorLevel1Starty + 50*3,
+            y: descriptorLevel1Starty + 50 * 3,
             points: [0, 5, 0, 42]
         },
         {
             x: 375,
-            y: descriptorLevel1Starty + 50*5,
+            y: descriptorLevel1Starty + 50 * 5,
             points: [0, 5, 0, 42]
         }
     ],
@@ -181,17 +181,17 @@ var descriptorLevel1 = {
         },
         {
             x: 500,
-            y: descriptorLevel1Starty + 50*2,
+            y: descriptorLevel1Starty + 50 * 2,
             text: 'simpleText = new Konva.Text({})'
         },
         {
             x: 500,
-            y: descriptorLevel1Starty + 50 *4,
+            y: descriptorLevel1Starty + 50 * 4,
             text: 'simpleText = new Konva.Text({})'
         },
         {
             x: 500,
-            y: descriptorLevel1Starty + 50 *6,
+            y: descriptorLevel1Starty + 50 * 6,
             text: 'simpleText = new Konva.Text({})'
         }
     ]
