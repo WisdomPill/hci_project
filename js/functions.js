@@ -27,10 +27,6 @@ function hide_pseudo_codes(stage) {
 
 function reposition_processes(stage) {
     var processes = stage.find('.process');
-    var shadows = stage.find('.shadow');
-    shadows.forEach(function (shadow){
-        shadow.attrs.answered= false;
-    });
     processes.forEach(function (process) {
         var params = {
             duration: 0.5,
@@ -125,7 +121,7 @@ function add_process(group, descriptor, index) {
 
     inner_group.add(new Konva.Text({
             x: 0,
-            y: (height / 2) - ((descriptor.text.length>21) ?  13 : 6),
+            y: (height / 2) - ((descriptor.text.length > 21) ? 13 : 6),
             height: height,
             width: width,
             text: descriptor.text,
@@ -145,7 +141,6 @@ function add_shadow(group, descriptor, index) {
     var x = descriptor.x;
     var width = descriptor.width;
     var height = descriptor.height;
-    var rightAnswer = descriptor.rightAnswer;
 
     var inner_group = new Konva.Group({
         x: x,
@@ -155,9 +150,9 @@ function add_shadow(group, descriptor, index) {
         name: 'shadow',
         answered: false,
         right: false,
-        rightAnswer: rightAnswer,
         index: index,
         shape: descriptor.shape,
+        right_answer: descriptor.right_answer,
         initial_position: {
             x: x,
             y: y
@@ -239,7 +234,7 @@ function add_pseudo_code(group, descriptor, index) {
         y: 0,
         text: descriptor.text,
         name: 'pseudo_code',
-        fontSize: 10  ,
+        fontSize: 10,
         fontFamily: 'Menlo',
         fill: 'black',
         opacity: 0
@@ -250,17 +245,16 @@ function add_pseudo_code(group, descriptor, index) {
     group.add(inner_group);
 }
 
-/*function update_answers(stage) {
-    //console.log(stage);
+function update_answers(stage) {
+    // console.log(stage);
     var processes = stage.find('.process');
     var shadows = stage.find('.shadow');
 
-    processes.forEach(function (process, index) {
-        if (is_right_answer(shadows[index], process)) {
-            shadows[index].attrs.answered = true;
-        }
-        //console.log(shadows[index])
-    });
+    // processes.forEach(function (process, index) {
+    //     if (is_right_answer(shadows[index], process)) {
+    //         shadows[index].attrs.answered = true;
+    //     }
+    // });
 
     // processes.forEach(function (process, index) {
     //     console.log('Process ' + process.children[1].attrs.text + ' with index ' + index + ' foreach and index '
@@ -268,28 +262,114 @@ function add_pseudo_code(group, descriptor, index) {
     // });
 
 
-    shadows.forEach(function (shadow, index, array) {
-        array[index].attrs.right = is_right_answer(shadow, processes[index]);
-        // console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
+    shadows.forEach(function (shadow, shadows_index, shadows_array) {
+        shadows_array[shadows_index].attrs.answered = false;
+        // console.log('Right answer index ' + shadow.attrs.right_answer);
+        processes.forEach(function (process, processes_index) {
+            if (same_position(process, shadow)) {
+                shadows_array[shadows_index].attrs.answered = true;
+            }
+            if (processes_index === shadow.attrs.right_answer) {
+                // console.log('process_index is the same as rhe shadow right_answer index');
+                shadows_array[shadows_index].attrs.right = same_position(shadow, process);
+            }
+        });
+        // console.log('Shadow with index ' + shadows_index + ' foreach and index ' + shadow.attrs.index
         //     + ' answered ' + shadow.attrs.answered + ' right ' + shadow.attrs.right);
     });
 
     // shadows.forEach(function (shadow, index) {
     //     console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
-    //         + ' answered ' + shadow.attrs.answered);
+    //         + ' answered ' + shadow.attrs.answered + ' right ' + shadow.attrs.right);
     // });
-}*/
-
-function is_right_answer(shadow, process) {
-    return shadow.attrs.rightAnswer == process.attrs.index;
 }
 
-/*function is_answered(shadow, process) {
+function compile_level(stage) {
+    var shadows = stage.find('.shadow');
+    var pseudo_codes = stage.find('.pseudo_code');
+
+    var answered_all_shadows = true;
+
+    shadows.forEach(function (shadow) {
+        if (!shadow.attrs.answered) {
+            answered_all_shadows = false;
+            var duration = 500;
+            var target = new Date();
+            target.setMilliseconds(target.getMilliseconds() + duration);
+            var delta = target - new Date();
+            var stop = false;
+
+            var animation = new Konva.Animation(function (frame) {
+                var t = 1 - (target - new Date()) / delta;
+
+                if (t > 1) {
+                    stop = true;
+                    t = 1;
+                }
+
+                var periodicity = 5;
+                var displacement = 5;
+                var initial_x = shadow.attrs.initial_position.x;
+                shadow.setX(initial_x + Math.sin(t * Math.PI * 2 * periodicity) * displacement);
+                if (stop) {
+                    animation.stop();
+                }
+            }, layer);
+
+            animation.start();
+        }
+    });
+
+    if (answered_all_shadows) {
+        var params = {
+            duration: 0.5,
+            easing: Konva.Easings.Linear,
+            opacity: 1,
+            onFinish: function () {
+                if (shadows[1].attrs.right) {
+                    pseudo_codes[1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, 2, shadows));
+                } else {
+                    // next block is in the wrong spot
+                    console.log('next process is in the wrong spot');
+                }
+            }
+        };
+
+        if (shadows[0].attrs.right) {
+            pseudo_codes[0].to(params);
+        }
+    }
+}
+
+function get_parameters_for_next_pseudo_codes(pseudo_codes, index, shadows) {
+    return {
+        duration: 0.5,
+        easing: Konva.Easings.Linear,
+        opacity: 1,
+        onFinish: function () {
+            if (index > 0 && index + 1 < pseudo_codes.length) {
+                console.log(shadows);
+                console.log(shadows[index + 1]);
+                if (shadows[index + 1].attrs.right) {
+                    pseudo_codes[index + 1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, index + 1, shadows));
+                } else {
+                    // next block is in the wrong spot
+                    console.log('next process is in the wrong spot');
+                }
+            } else if (index + 1 === pseudo_codes.length) {
+                // win game
+                console.log('congrats you won');
+            }
+        }
+    }
+}
+
+function same_position(shadow, process) {
     var same_x = process.attrs.x === shadow.attrs.x;
     var same_y = process.attrs.y === shadow.attrs.y;
 
     return same_x && same_y;
-}*/
+}
 
 function is_near_matching_shadow(process, shadow) {
     var thresh = 50;

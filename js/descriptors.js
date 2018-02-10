@@ -133,7 +133,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 300,
             y: descriptorLevel1Starty,
-            rightAnswer:2
+            right_answer: 2
         },
         {
             shape: 'rectangle',
@@ -141,7 +141,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 300,
             y: descriptorLevel1Starty + 50 * 2,
-            rightAnswer:3
+            right_answer: 3
         },
         {
             shape: 'rectangle',
@@ -149,7 +149,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 300,
             y: descriptorLevel1Starty + 50 * 4,
-            rightAnswer:0
+            right_answer: 0
         },
         {
             shape: 'rectangle',
@@ -157,7 +157,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 300,
             y: descriptorLevel1Starty + 50 * 6,
-            rightAnswer:1
+            right_answer: 1
         }
     ],
     arrows: [
