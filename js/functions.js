@@ -27,6 +27,10 @@ function hide_pseudo_codes(stage) {
 
 function reposition_processes(stage) {
     var processes = stage.find('.process');
+    var shadows = stage.find('.shadow');
+    shadows.forEach(function (shadow){
+        shadow.attrs.answered= false;
+    });
     processes.forEach(function (process) {
         var params = {
             duration: 0.5,
@@ -133,7 +137,6 @@ function add_process(group, descriptor, index) {
             scaleY: 1
         }
     ));
-    console.log(descriptor.text.length)
     group.add(inner_group);
 }
 
@@ -142,6 +145,7 @@ function add_shadow(group, descriptor, index) {
     var x = descriptor.x;
     var width = descriptor.width;
     var height = descriptor.height;
+    var rightAnswer = descriptor.rightAnswer;
 
     var inner_group = new Konva.Group({
         x: x,
@@ -151,6 +155,7 @@ function add_shadow(group, descriptor, index) {
         name: 'shadow',
         answered: false,
         right: false,
+        rightAnswer: rightAnswer,
         index: index,
         shape: descriptor.shape,
         initial_position: {
@@ -245,8 +250,8 @@ function add_pseudo_code(group, descriptor, index) {
     group.add(inner_group);
 }
 
-function update_answers(stage) {
-    // console.log(stage);
+/*function update_answers(stage) {
+    //console.log(stage);
     var processes = stage.find('.process');
     var shadows = stage.find('.shadow');
 
@@ -254,6 +259,7 @@ function update_answers(stage) {
         if (is_right_answer(shadows[index], process)) {
             shadows[index].attrs.answered = true;
         }
+        //console.log(shadows[index])
     });
 
     // processes.forEach(function (process, index) {
@@ -272,21 +278,18 @@ function update_answers(stage) {
     //     console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
     //         + ' answered ' + shadow.attrs.answered);
     // });
-}
+}*/
 
 function is_right_answer(shadow, process) {
-    if (is_answered(shadow, process)) {
-        return shadow.attrs.index === process.attrs.index;
-    }
-    return false;
+    return shadow.attrs.rightAnswer == process.attrs.index;
 }
 
-function is_answered(shadow, process) {
+/*function is_answered(shadow, process) {
     var same_x = process.attrs.x === shadow.attrs.x;
     var same_y = process.attrs.y === shadow.attrs.y;
 
     return same_x && same_y;
-}
+}*/
 
 function is_near_matching_shadow(process, shadow) {
     var thresh = 50;

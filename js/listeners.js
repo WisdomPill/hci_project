@@ -27,16 +27,25 @@ stage.on('click', function (evt) {
         case 'compile_button':
 
             var shadows = this.find('.shadow');
+            var rightAnswerNumber = 0;
 
-            shadows.forEach(function (value) {
-                if (!value.answered) {
+            shadows.forEach(function (value, index) {
+                if (!value.attrs.answered) {
                     console.log('Shadow ' + value.index + ' does not have an answer');
+                } else{
+                    console.log('Shadow ' + value.index + ' have an answer!');
                 }
-                if (!value.right) {
+                if (!value.attrs.right) {
                     console.log('Shadow ' + value.index + ' does not have the right answer');
+                } else {
+                    rightAnswerNumber++;
+                    console.log('Shadow ' + value.index + ' have the right answer!');
                 }
             });
-
+            if (rightAnswerNumber == shadows.length){
+                stage.fire('click', {target : {attrs: {id: 'text_button'}}});
+                console.log('livello completato')
+            } 
             break;
         case 'popup_button':
 
@@ -133,6 +142,14 @@ stage.on('dragend', function (evt) {
     shadows.forEach(function (shadow) {
         if (is_near_matching_shadow(group, shadow)) {
             near_shadow = shadow;
+            if (is_right_answer(shadow, group)) {
+                shadow.attrs.answered=true;
+                shadow.attrs.right= true;
+            }
+            else {
+                shadow.attrs.answered=true;
+            }
+
         }
     });
 
@@ -142,7 +159,8 @@ stage.on('dragend', function (evt) {
         x: 0,
         y: 0,
         onFinish: function () {
-            update_answers(stage);
+
+            //update_answers(stage);
         }
     };
 

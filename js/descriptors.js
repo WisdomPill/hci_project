@@ -132,28 +132,32 @@ var descriptorLevel1 = {
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty
+            y: descriptorLevel1Starty,
+            rightAnswer:2
         },
         {
             shape: 'rectangle',
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 * 2
+            y: descriptorLevel1Starty + 50 * 2,
+            rightAnswer:3
         },
         {
             shape: 'rectangle',
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 * 4
+            y: descriptorLevel1Starty + 50 * 4,
+            rightAnswer:0
         },
         {
             shape: 'rectangle',
             height: 50,
             width: 150,
             x: 300,
-            y: descriptorLevel1Starty + 50 * 6
+            y: descriptorLevel1Starty + 50 * 6,
+            rightAnswer:1
         }
     ],
     arrows: [
