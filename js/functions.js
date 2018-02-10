@@ -121,19 +121,19 @@ function add_process(group, descriptor, index) {
 
     inner_group.add(new Konva.Text({
             x: 0,
-            y: height / 2 - 7,
+            y: (height / 2) - ((descriptor.text.length>21) ?  13 : 6),
             height: height,
             width: width,
             text: descriptor.text,
             align: 'center',
-            fontFamily: 'Calibri',
-            fontSize: 15,
+            fontFamily: 'Salsa',
+            fontSize: 13,
             fill: 'black',
             scaleX: 1,
             scaleY: 1
         }
     ));
-
+    console.log(descriptor.text.length)
     group.add(inner_group);
 }
 
@@ -234,7 +234,7 @@ function add_pseudo_code(group, descriptor, index) {
         y: 0,
         text: descriptor.text,
         name: 'pseudo_code',
-        fontSize: 10,
+        fontSize: 10  ,
         fontFamily: 'Menlo',
         fill: 'black',
         opacity: 0

@@ -13,16 +13,40 @@ h3 {
     background-color: #F0F0F0;
 }
 
-.play {
-    background-color: #f7d0bc;
+.btn-play {
+    background-color: #a2ee9a;
+    font-family: Salsa;
+    font-size: 40px;
+    border-radius: 0 !important;
 }
 
-.reset {
-    background-color: #f7edbc;
+.btn-play:hover {
+    color:#fff;
+    background-color: #00B2A8
 }
 
-.help {
-    background-color: #bce5f7;
+.btn-reset {
+    background-color: #f7786b;
+    font-family: Salsa;
+    font-size: 40px;
+    border-radius: 0 !important;
+}
+
+.btn-reset:hover {
+    color:#fff;
+    background-color: #00B2A8
+}
+
+.btn-help {
+    background-color: #84bce2;
+    font-family: Salsa;
+    font-size: 40px;
+    border-radius: 0 !important;
+}
+
+.btn-help:hover {
+    color:#fff;
+    background-color: #00B2A8
 }
 
 .leftmenu {
@@ -30,7 +54,7 @@ h3 {
 }
 
 .title {
-    background-color: #d9eff7;
+    background-color: #92a8d1;
 }
 
 .imgrobot {
@@ -38,4 +62,9 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
 }
