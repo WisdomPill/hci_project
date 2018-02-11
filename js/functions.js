@@ -327,7 +327,7 @@ function compile_level(stage) {
             opacity: 1,
             onFinish: function () {
                 if (shadows[1].attrs.right) {
-                    pseudo_codes[1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, 2, shadows));
+                    pseudo_codes[1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, 1, shadows));
                 } else {
                     // next block is in the wrong spot
                     console.log('next process is in the wrong spot');

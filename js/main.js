@@ -10,96 +10,42 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer({});
 var dragLayer = new Konva.Layer({});
 
-layer.add(new Konva.Rect({
-        x: 650,
-        y: descriptorLevel1Starty,
-        height: 50,
-        width: 50,
-        fill: 'cyan',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        id: 'compile_button'
-    }
-));
+stage.add(layer, dragLayer);
 
-layer.add(new Konva.Rect({
-        x: 650,
-        y: descriptorLevel1Starty + 50 *2,
-        height: 50,
-        width: 50,
-        fill: 'green',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        id: 'reset_button'
-    }
-));
+// var rect1 = new Konva.Rect({
+//         x: 675,
+//         y: descriptorLevel1Starty + 50 * 4,
+//         height: 50,
+//         width: 50,
+//         fill: 'red',
+//         scale: {
+//             x: 1,
+//             y: 1
+//         },
+//         id: 'another_button'
+//     }
+// );
+// layer.add(rect1);
+//
+// var rect2 = new Konva.Rect({
+//         x: 675,
+//         y: descriptorLevel1Starty + 50 * 4,
+//         height: 50,
+//         width: 50,
+//         fill: 'black',
+//         scale: {
+//             x: 1,
+//             y: 1
+//         },
+//         id: 'popup_button'
+//     }
+// );
+// layer.add(rect2);
+// rect2.setZIndex(30);
+// rect1.setZIndex(1);
+// console.log(rect1.getZIndex());
+// console.log(rect2.getZIndex());
 
-layer.add(new Konva.Rect({
-        x: 675,
-        y: descriptorLevel1Starty + 50 *4,
-        height: 50,
-        width: 50,
-        fill: 'black',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        rotation: 45,
-        id: 'popup_button'
-    }
-));
-
-layer.add(new Konva.Rect({
-        x: 650,
-        y: descriptorLevel1Starty + 50 *6,
-        height: 50,
-        width: 50,
-        fill: 'red',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        id: 'remove_button'
-    }
-));
-
-layer.add(new Konva.Rect({
-        x: 650,
-        y: descriptorLevel1Starty + 50 *8,
-        height: 50,
-        width: 50,
-        fill: 'yellow',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        id: 'text_button'
-    }
-));
-
-layer.add(new Konva.Rect({
-        x: 650,
-        y: descriptorLevel1Starty + 50 *10,
-        height: 50,
-        width: 50,
-        fill: 'blue',
-        opacity: 0.6,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        name: 'remove_me'
-    }
-));
 
 var level_group = new Konva.Group({});
 layer.add(level_group);
@@ -112,9 +58,33 @@ level_group.add(lines_group);
 var pseudo_code_group = new Konva.Group({});
 level_group.add(pseudo_code_group);
 var hud_group = new Konva.Group({});
-layer.add(hud_group);
+level_group.add(hud_group);
+
+// var popup_width = 500;
+// var popup_height = 400;
+//
+// var popup_x = width / 2 - popup_width / 2;
+// var popup_y = height / 2 - popup_height / 2;
+// console.log(popup_x);
+// console.log(popup_y);
+// var popup_group = new Konva.Group({
+//     visible: false,
+//     x: popup_x,
+//     y: popup_y
+// });
+//
+// var rectangle = new Konva.Rect({
+//     x: 0,
+//     y: 0,
+//     fill: 'green',
+//     height: popup_height,
+//     width: popup_width
+// });
+//
+// popup_group.add(rectangle);
+//
+// hud_group.add(popup_group);
 
 load_descriptor(descriptorLevel1, processes_group, shadows_group, lines_group, pseudo_code_group);
 
-stage.add(layer, dragLayer);
-
+stage.draw();

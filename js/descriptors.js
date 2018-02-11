@@ -181,22 +181,22 @@ var descriptorLevel1 = {
         {
             x: 500,
             y: descriptorLevel1Starty,
-            text: 'simpleText = new Konva.Text({})'
+            text: 'pentola.versa(acqua)'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 2,
-            text: 'simpleText = new Konva.Text({})'
+            text: 'pentola.scalda()'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 4,
-            text: 'simpleText = new Konva.Text({})'
+            text: 'bicchiere.versa(pentola.contenuto)'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 6,
-            text: 'simpleText = new Konva.Text({})'
+            text: 'bicchiere.immergi(bustina)'
         }
     ]
 };

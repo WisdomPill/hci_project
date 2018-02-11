@@ -31,59 +31,6 @@ stage.on('click', function (evt) {
             break;
         case 'popup_button':
 
-            var shadows = this.find('.shadow');
-
-            var f = 'position';
-
-            var duration = 500;
-
-            var target = new Date();
-            target.setMilliseconds(target.getMilliseconds() + duration);
-
-            var delta = target - new Date();
-
-            var stop = false;
-
-            console.log(delta);
-
-            var animation = new Konva.Animation(function (frame) {
-                var t = 1 - (target - new Date()) / delta;
-                console.log(t);
-
-                if (t > 1) {
-                    stop = true;
-                    t = 1;
-                }
-
-                var periodicity = 5;
-
-                shadows.forEach(function (shadow) {
-                    switch (f) {
-                        case 'angle':
-                            var angle = 30;
-                            var target_angle = Math.sin(t * Math.PI * 2 * periodicity) * angle;
-                            console.log(angle);
-                            console.log(target_angle);
-                            shadow.attrs.rotation = (target_angle);
-                            break;
-                        case 'position':
-                            var displacement = 5;
-                            var initial_x = shadow.attrs.initial_position.x;
-                            shadow.setX(initial_x + Math.sin(t * Math.PI * 2 * periodicity) * displacement);
-                            break;
-                        default:
-                            break;
-                    }
-                });
-
-                if (stop) {
-                    animation.stop();
-                }
-
-            }, layer);
-
-            animation.start();
-
             break;
 
         default:
@@ -103,10 +50,7 @@ stage.on('dragstart', function (evt) {
             scaleX: 1.2,
             scaleY: 1.2,
             shadowOffsetX: 15,
-            shadowOffsetY: 15,
-            onFinish: function () {
-                console.log('finished drag start');
-            }
+            shadowOffsetY: 15
         };
         value.to(params);
     });
@@ -165,8 +109,6 @@ stage.on('dragend', function (evt) {
         };
         value.to(params);
     });
-
-    // update_answers(this);
 });
 
 
