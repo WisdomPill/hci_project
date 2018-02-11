@@ -95,7 +95,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 30,
             y: descriptorLevel1Starty,
-            text: 'Versa l\'acqua nel bicchiere',
+            text: 'Pour water in the glass',
             color: '#68d554'
         },
         {
@@ -104,7 +104,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 30,
             y: descriptorLevel1Starty + 50 * 2,
-            text: 'Metti la bustina nel bicchiere',
+            text: 'Put the tea bag into the glass',
             color: '#68d554'
         },
         {
@@ -113,7 +113,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 30,
             y: descriptorLevel1Starty + 50 * 4,
-            text: 'Riempi la pentola d\'acqua',
+            text: 'Fill the pot with water',
             color: '#68d554'
         },
         {
@@ -122,7 +122,7 @@ var descriptorLevel1 = {
             width: 150,
             x: 30,
             y: descriptorLevel1Starty + 50 * 6,
-            text: 'Scalda la pentola',
+            text: 'Warm the pot',
             color: '#68d554'
         }
     ],
@@ -181,22 +181,22 @@ var descriptorLevel1 = {
         {
             x: 500,
             y: descriptorLevel1Starty,
-            text: 'pentola.versa(acqua)'
+            text: 'pot.fill(water)'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 2,
-            text: 'pentola.scalda()'
+            text: 'pot.warm()'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 4,
-            text: 'bicchiere.versa(pentola.contenuto)'
+            text: 'glass.pour(pot.contents)'
         },
         {
             x: 500,
             y: descriptorLevel1Starty + 50 * 6,
-            text: 'bicchiere.immergi(bustina)'
+            text: 'glass.add(tea_bags)'
         }
     ]
 };
