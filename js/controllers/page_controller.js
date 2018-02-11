@@ -23,7 +23,12 @@ function StopSound(soundobj) {
     thissound.currentTime = 0;
 }
 
+function compile(){
+    compile_level(stage);
+}
+
 function resetButton() {
-    stage.fire('click', {target : {attrs: {id: 'reset_button'}}});
+    reposition_processes(stage);
+    hide_pseudo_codes(stage);
 }
 

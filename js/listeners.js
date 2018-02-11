@@ -143,6 +143,10 @@ stage.on('dragend', function (evt) {
     } else {
         group_params.x = near_shadow.attrs.x;
         group_params.y = near_shadow.attrs.y;
+        group_params.onFinish = function () {
+            update_answers(stage);
+            PlaySound('beep');
+        }
     }
 
     group.to(group_params);

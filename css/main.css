@@ -49,6 +49,18 @@ h3 {
     background-color: #00B2A8
 }
 
+.btn-compile {
+    background-color: #a2ee9a;
+    font-family: Salsa;
+    font-size: 40px;
+    border-radius: 0 !important;
+}
+
+.btn-compile:hover {
+    color:#fff;
+    background-color: #00B2A8
+}
+
 .leftmenu {
     background-color: #d9eff7;
 }
@@ -61,7 +73,8 @@ h3 {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
+    max-width: 100%;
+    height: auto;
 }
 
 .nopadding {
