@@ -1,17 +1,21 @@
 function showGame() {
     document.getElementById("container").hidden = false;
     document.getElementById("help").style.display = 'none';
-    document.getElementById("moveblockimage").style.display = 'none'
     document.getElementById("reset-button").hidden = false;
 }
-
-
 
 function showHelp() {
     document.getElementById("container").hidden = true;
     document.getElementById("help").style.display = 'block';
-    document.getElementById("moveblockimage").style.display = 'block'
     document.getElementById("reset-button").hidden = true;
+}
+
+function showMessageWon() {
+    document.getElementById("messagewon").style.display = 'block';
+}
+
+function showMessageMissing() {
+    document.getElementById("messagemissing").style.display = 'block';
 }
 
 function PlaySound(soundobj) {

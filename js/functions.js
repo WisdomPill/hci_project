@@ -234,7 +234,7 @@ function add_pseudo_code(group, descriptor, index) {
         y: 0,
         text: descriptor.text,
         name: 'pseudo_code',
-        fontSize: 10,
+        fontSize: 13,
         fontFamily: 'Menlo',
         fill: 'black',
         opacity: 0
@@ -321,6 +321,8 @@ function compile_level(stage) {
     });
 
     if (answered_all_shadows) {
+        editMessage();
+        showMessageWon();
         var params = {
             duration: 0.5,
             easing: Konva.Easings.Linear,
@@ -338,6 +340,8 @@ function compile_level(stage) {
         if (shadows[0].attrs.right) {
             pseudo_codes[0].to(params);
         }
+    }else {
+        showMessageMissing();
     }
 }
 
