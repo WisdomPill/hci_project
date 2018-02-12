@@ -31,8 +31,8 @@ function reposition_processes(stage) {
         var params = {
             duration: 0.5,
             easing: Konva.Easings.ElasticEaseOut,
-            x: process.attrs.initial.x,
-            y: process.attrs.initial.y
+            x: process.getAttr('initial').x,
+            y: process.getAttr('initial').y
         };
 
         process.to(params);
@@ -40,24 +40,52 @@ function reposition_processes(stage) {
 }
 
 function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
-    descriptor.processes.forEach(function (process_descriptor, index) {
-        add_process(processes_group, process_descriptor, index);
+    descriptor.processes.forEach(function (process_descriptor) {
+        add_process(processes_group, process_descriptor);
     });
 
-    descriptor.shadows.forEach(function (shadow_descriptor, index) {
-        add_shadow(shadows_group, shadow_descriptor, index);
+    descriptor.shadows.forEach(function (shadow_descriptor) {
+        add_shadow(shadows_group, shadow_descriptor);
     });
 
     descriptor.arrows.forEach(function (arrow_descriptor) {
         add_arrow(lines_group, arrow_descriptor);
     });
 
-    descriptor.pseudo_code.forEach(function (pseudo_code_descriptor, index) {
-        add_pseudo_code(pseudocode_group, pseudo_code_descriptor, index);
-    })
+    descriptor.pseudo_code.forEach(function (pseudo_code_descriptor) {
+        add_pseudo_code(pseudocode_group, pseudo_code_descriptor);
+    });
 }
 
-function add_process(group, descriptor, index) {
+function remove_level_nodes(stage){
+    var processes = stage.find('.process');
+
+    processes.forEach(function (process) {
+        process.destroy()
+    });
+
+    var shadows = stage.find('.shadow');
+
+    shadows.forEach(function (shadow) {
+        shadow.destroy();
+    });
+
+    var arrows = stage.find('.arrow');
+
+    arrows.forEach(function (arrow) {
+        arrow.destroy();
+    });
+
+    var pseudo_codes = stage.find('.pseudo_code');
+
+    pseudo_codes.forEach(function (value) {
+        value.destroy();
+    });
+
+    stage.draw();
+}
+
+function add_process(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -75,7 +103,6 @@ function add_process(group, descriptor, index) {
         },
         name: 'process',
         shape: shape,
-        index: index,
         draggable: true
     });
 
@@ -136,7 +163,7 @@ function add_process(group, descriptor, index) {
     group.add(inner_group);
 }
 
-function add_shadow(group, descriptor, index) {
+function add_shadow(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
     var width = descriptor.width;
@@ -150,7 +177,6 @@ function add_shadow(group, descriptor, index) {
         name: 'shadow',
         answered: false,
         right: false,
-        index: index,
         shape: descriptor.shape,
         right_answer: descriptor.right_answer,
         initial_position: {
@@ -204,7 +230,8 @@ function add_arrow(group, descriptor) {
 
     var inner_group = new Konva.Group({
         x: x,
-        y: y
+        y: y,
+        name: 'arrow'
     });
 
     var arrow = new Konva.Arrow({
@@ -219,14 +246,13 @@ function add_arrow(group, descriptor) {
     group.add(inner_group);
 }
 
-function add_pseudo_code(group, descriptor, index) {
+function add_pseudo_code(group, descriptor) {
     var y = descriptor.y;
     var x = descriptor.x;
 
     var inner_group = new Konva.Group({
         x: x,
-        y: y,
-        index: index
+        y: y
     });
 
     var pseudo_code = new Konva.Text({
@@ -246,42 +272,20 @@ function add_pseudo_code(group, descriptor, index) {
 }
 
 function update_answers(stage) {
-    // console.log(stage);
     var processes = stage.find('.process');
     var shadows = stage.find('.shadow');
 
-    // processes.forEach(function (process, index) {
-    //     if (is_right_answer(shadows[index], process)) {
-    //         shadows[index].attrs.answered = true;
-    //     }
-    // });
-
-    // processes.forEach(function (process, index) {
-    //     console.log('Process ' + process.children[1].attrs.text + ' with index ' + index + ' foreach and index '
-    //         + process.attrs.index);
-    // });
-
-
     shadows.forEach(function (shadow, shadows_index, shadows_array) {
-        shadows_array[shadows_index].attrs.answered = false;
-        // console.log('Right answer index ' + shadow.attrs.right_answer);
+        shadows_array[shadows_index].setAttr('answered', false);
         processes.forEach(function (process, processes_index) {
             if (same_position(process, shadow)) {
-                shadows_array[shadows_index].attrs.answered = true;
+                shadows_array[shadows_index].setAttr('answered', true);
             }
-            if (processes_index === shadow.attrs.right_answer) {
-                // console.log('process_index is the same as rhe shadow right_answer index');
-                shadows_array[shadows_index].attrs.right = same_position(shadow, process);
+            if (processes_index === shadow.getAttr('right_answer')) {
+                shadows_array[shadows_index].setAttr('right', same_position(shadow, process));
             }
         });
-        // console.log('Shadow with index ' + shadows_index + ' foreach and index ' + shadow.attrs.index
-        //     + ' answered ' + shadow.attrs.answered + ' right ' + shadow.attrs.right);
     });
-
-    // shadows.forEach(function (shadow, index) {
-    //     console.log('Shadow with index ' + index + ' foreach and index ' + shadow.attrs.index
-    //         + ' answered ' + shadow.attrs.answered + ' right ' + shadow.attrs.right);
-    // });
 }
 
 function compile_level(stage) {
@@ -291,7 +295,7 @@ function compile_level(stage) {
     var answered_all_shadows = true;
 
     shadows.forEach(function (shadow) {
-        if (!shadow.attrs.answered) {
+        if (!shadow.getAttr('answered')) {
             answered_all_shadows = false;
             var duration = 500;
             var target = new Date();
@@ -309,7 +313,7 @@ function compile_level(stage) {
 
                 var periodicity = 5;
                 var displacement = 5;
-                var initial_x = shadow.attrs.initial_position.x;
+                var initial_x = shadow.getAttr('initial_position').x;
                 shadow.setX(initial_x + Math.sin(t * Math.PI * 2 * periodicity) * displacement);
                 if (stop) {
                     animation.stop();
@@ -328,7 +332,7 @@ function compile_level(stage) {
             easing: Konva.Easings.Linear,
             opacity: 1,
             onFinish: function () {
-                if (shadows[1].attrs.right) {
+                if (shadows[1].getAttr('right')) {
                     pseudo_codes[1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, 1, shadows));
                 } else {
                     // next block is in the wrong spot
@@ -337,7 +341,7 @@ function compile_level(stage) {
             }
         };
 
-        if (shadows[0].attrs.right) {
+        if (shadows[0].getAttr('right')) {
             pseudo_codes[0].to(params);
         }
     }else {
@@ -354,7 +358,7 @@ function get_parameters_for_next_pseudo_codes(pseudo_codes, index, shadows) {
             if (index > 0 && index + 1 < pseudo_codes.length) {
                 console.log(shadows);
                 console.log(shadows[index + 1]);
-                if (shadows[index + 1].attrs.right) {
+                if (shadows[index + 1].getAttr('right')) {
                     pseudo_codes[index + 1].to(get_parameters_for_next_pseudo_codes(pseudo_codes, index + 1, shadows));
                 } else {
                     // next block is in the wrong spot
@@ -369,8 +373,8 @@ function get_parameters_for_next_pseudo_codes(pseudo_codes, index, shadows) {
 }
 
 function same_position(shadow, process) {
-    var same_x = process.attrs.x === shadow.attrs.x;
-    var same_y = process.attrs.y === shadow.attrs.y;
+    var same_x = process.getAttr('x') === shadow.getAttr('x');
+    var same_y = process.getAttr('y') === shadow.getAttr('y');
 
     return same_x && same_y;
 }
@@ -381,12 +385,12 @@ function is_near_matching_shadow(process, shadow) {
     var shadow_center = calculate_shape_center(shadow);
     var x = shadow_center.x - process_center.x;
     var y = shadow_center.y - process_center.y;
-    return Math.sqrt(x * x + y * y) < thresh && process.attrs.shape === shadow.attrs.shape && !shadow.attrs.answered;
+    return Math.sqrt(x * x + y * y) < thresh && process.getAttr('shape') === shadow.getAttr('shape') && !shadow.getAttr('answered');
 }
 
 function calculate_shape_center(shape) {
     return {
-        x: shape.attrs.x + shape.attrs.width / 2,
-        y: shape.attrs.y + shape.attrs.height / 2
+        x: shape.getAttr('x') + shape.getAttr('width') / 2,
+        y: shape.getAttr('y') + shape.getAttr('height') / 2
     }
 }

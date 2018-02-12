@@ -1,6 +1,6 @@
-var descriptor = {
+var descriptor =
+    {
     error_message: '',
-    background_img: '',
     processes: [
         {
             shape: 'rectangle',

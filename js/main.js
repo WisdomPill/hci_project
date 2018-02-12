@@ -1,4 +1,4 @@
-var width = window.innerWidth;
+var width = $('#container').width();
 var height = window.innerHeight;
 
 var stage = new Konva.Stage({
@@ -12,23 +12,23 @@ var dragLayer = new Konva.Layer({});
 
 stage.add(layer, dragLayer);
 
-// var rect1 = new Konva.Rect({
-//         x: 675,
-//         y: descriptorLevel1Starty + 50 * 4,
-//         height: 50,
-//         width: 50,
-//         fill: 'red',
-//         scale: {
-//             x: 1,
-//             y: 1
-//         },
-//         id: 'another_button'
-//     }
-// );
-// layer.add(rect1);
+var rect1 = new Konva.Rect({
+        x: 675,
+        y: descriptorLevel1Starty + 50 * 4,
+        height: 50,
+        width: 50,
+        fill: 'red',
+        scale: {
+            x: 1,
+            y: 1
+        },
+        id: 'another_button'
+    }
+);
+layer.add(rect1);
 //
 // var rect2 = new Konva.Rect({
-//         x: 675,
+//         x: 775,
 //         y: descriptorLevel1Starty + 50 * 4,
 //         height: 50,
 //         width: 50,
@@ -41,10 +41,6 @@ stage.add(layer, dragLayer);
 //     }
 // );
 // layer.add(rect2);
-// rect2.setZIndex(30);
-// rect1.setZIndex(1);
-// console.log(rect1.getZIndex());
-// console.log(rect2.getZIndex());
 
 
 var level_group = new Konva.Group({});
@@ -60,30 +56,29 @@ level_group.add(pseudo_code_group);
 var hud_group = new Konva.Group({});
 level_group.add(hud_group);
 
-// var popup_width = 500;
-// var popup_height = 400;
-//
-// var popup_x = width / 2 - popup_width / 2;
-// var popup_y = height / 2 - popup_height / 2;
-// console.log(popup_x);
-// console.log(popup_y);
-// var popup_group = new Konva.Group({
-//     visible: false,
-//     x: popup_x,
-//     y: popup_y
-// });
-//
-// var rectangle = new Konva.Rect({
-//     x: 0,
-//     y: 0,
-//     fill: 'green',
-//     height: popup_height,
-//     width: popup_width
-// });
-//
-// popup_group.add(rectangle);
-//
-// hud_group.add(popup_group);
+var popup_width = 500;
+var popup_height = 400;
+
+var popup_x = width / 2 - popup_width / 2;
+var popup_y = height / 2 - popup_height / 2;
+var popup_group = new Konva.Group({
+    visible: false,
+    x: popup_x,
+    y: popup_y,
+    id: 'popup'
+});
+
+var rectangle = new Konva.Rect({
+    x: 0,
+    y: 0,
+    fill: 'green',
+    height: popup_height,
+    width: popup_width
+});
+
+popup_group.add(rectangle);
+
+hud_group.add(popup_group);
 
 load_descriptor(descriptorLevel1, processes_group, shadows_group, lines_group, pseudo_code_group);
 

@@ -18,9 +18,9 @@ function showMessageMissing() {
     document.getElementById("messagemissing").style.display = 'block';
 }
 
-function PlaySound(soundobj) {
-    var thissound=document.getElementById(soundobj);
-    thissound.play();
+function PlaySound(name) {
+    var sound = new Audio('audio/beep.wav');
+    sound.play();
 }
 
 function StopSound(soundobj) {

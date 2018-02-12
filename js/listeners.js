@@ -1,14 +1,11 @@
 stage.on('click', function (evt) {
     var shape = evt.target;
     switch (shape.attrs.id) {
-        case 'remove_button':
+        case 'another_button':
 
-            var to_remove = this.find('.remove_me');
+            remove_level_nodes(this);
 
-            to_remove.forEach(function (value) {
-                value.destroy();
-            });
-            this.draw();
+            load_descriptor()
 
             break;
         case 'reset_button':
@@ -18,11 +15,6 @@ stage.on('click', function (evt) {
             hide_pseudo_codes(this);
 
             break;
-        case 'text_button':
-
-            show_pseudo_codes(this);
-
-            break;
 
         case 'compile_button':
 
@@ -30,6 +22,12 @@ stage.on('click', function (evt) {
 
             break;
         case 'popup_button':
+
+            var popup_rectangle = this.find('#popup')[0];
+
+            popup_rectangle.show();
+
+            this.draw();
 
             break;
 
