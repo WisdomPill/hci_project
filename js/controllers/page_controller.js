@@ -1,6 +1,7 @@
 function showGame() {
     document.getElementById("container").hidden = false;
     document.getElementById("help").style.display = 'none';
+    document.getElementById("moveblockimage").style.display = 'none'
     document.getElementById("reset-button").hidden = false;
 }
 
@@ -9,6 +10,7 @@ function showGame() {
 function showHelp() {
     document.getElementById("container").hidden = true;
     document.getElementById("help").style.display = 'block';
+    document.getElementById("moveblockimage").style.display = 'block'
     document.getElementById("reset-button").hidden = true;
 }
 

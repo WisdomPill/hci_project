@@ -61,6 +61,11 @@ h3 {
     background-color: #00B2A8
 }
 
+.btn-level {
+    font-size: 20px;
+}
+
+
 .leftmenu {
     background-color: #d9eff7;
 }
@@ -80,4 +85,13 @@ h3 {
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
+}
+
+.help-page {
+    font-family: Salsa;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
 }

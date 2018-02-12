@@ -52,10 +52,24 @@
             <div class="text-center reset" id="reset-button">
                 <button type="button" class="btn btn-reset btn-block" onclick="resetButton()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Reset</button>
             </div>
+
+            <br>
+            <br>
+            <br>
+            <div class="text-center">
+                <button type="button" class="btn btn-play btn-block btn-level" onclick="showGame()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 1</button>
+            </div>
+            <div class="text-center help">
+                <button type="button" class="btn btn-help btn-block btn-level" onclick="showHelp()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 2</button>
+            </div>
+            <div class="text-center reset" id="reset2-button">
+                <button type="button" class="btn btn-reset btn-block btn-level" onclick="resetButton()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 3</button>
+            </div>
         </div>
         <div class="col-md-8 nopadding">
             <div id="container" style="background-color: #FFFFFF"></div>
-            <div class="text-center" id="help" style="display:none;">Help page</div>
+            <div class="text-center p-xl-4 help-page" id="help" style="display:none;">The goal of the game is to position the green blocks on the left over the grey boxes on the right </div>
+            <img class="imgrobot" src="img/moveblock.gif" id="moveblockimage" alt="moveblockimage" style="display:none;" ></div>
         </div>
         <div class="col-md-2 border-left border-dark nopadding">
             <div><img class="imgrobot" src="img/congrats_you_won.jpg" alt="you won"></div>
