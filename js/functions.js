@@ -352,6 +352,7 @@ function compile_level(stage) {
     } else {
 
         showMessageMissing();
+        PlaySound('error2');
     }
 }
 

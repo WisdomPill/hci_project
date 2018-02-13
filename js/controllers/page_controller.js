@@ -21,14 +21,13 @@ function showMessageMissing() {
 }
 
 function PlaySound(name) {
-    console.log(name);
-    var sound = new Audio('audio/beep.wav');
+    var sound = new Audio('audio/'+ name+ '.wav');
     sound.play();
 }
 
 function StopSound(name) {
-    console.log(name);
-    var sound = new Audio('audio/beep.wav');
+
+    var sound = new Audio('audio/'+ name + '.wav');
     sound.pause();
     sound.currentTime = 0;
 }
