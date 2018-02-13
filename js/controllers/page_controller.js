@@ -2,12 +2,14 @@ function showGame() {
     document.getElementById("container").hidden = false;
     document.getElementById("help").style.display = 'none';
     document.getElementById("reset-button").hidden = false;
+    document.getElementById("titleLevel1").hidden = false;
 }
 
 function showHelp() {
     document.getElementById("container").hidden = true;
     document.getElementById("help").style.display = 'block';
     document.getElementById("reset-button").hidden = true;
+    document.getElementById("titleLevel1").hidden = true;
 }
 
 function showMessageWon() {
