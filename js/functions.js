@@ -40,6 +40,8 @@ function reposition_processes(stage) {
 }
 
 function load_descriptor(descriptor, processes_group, shadows_group, lines_group, pseudocode_group) {
+    console.log('loading level');
+    console.log(descriptor);
     descriptor.processes.forEach(function (process_descriptor) {
         add_process(processes_group, process_descriptor);
     });
@@ -65,7 +67,7 @@ function remove_level_nodes(stage) {
     var processes = stage.find('.process');
 
     processes.forEach(function (process) {
-        process.destroy()
+        process.destroy();
     });
 
     var shadows = stage.find('.shadow');
@@ -330,8 +332,6 @@ function compile_level(stage) {
 
 
     if (answered_all_shadows) {
-        // TODO move this to right spot ASAP
-//        showMessageWon();
         var params = {
             duration: 0.5,
             easing: Konva.Easings.Linear,
@@ -350,7 +350,6 @@ function compile_level(stage) {
             pseudo_codes[0].to(params);
         }
     } else {
-
         showMessageMissing();
         PlaySound('error2');
     }
@@ -375,11 +374,18 @@ function get_parameters_for_next_pseudo_codes(pseudo_codes, index, shadows) {
                 // win game
                 console.log('congrats you won');
                 level_number++;
-                remove_level_nodes(stage);
-                prepare_level();
+                $('#level' + (level_number + 1)).removeClass('level-off');
+                $('#level' + (level_number + 1)).addClass('btn-play');
+                $('#level' + (level_number + 1)).prop('disabled', false);
             }
         }
     }
+}
+
+function play_level(level_number) {
+    remove_level_nodes(stage);
+    prepare_level(level_number);
+    stage.draw();
 }
 
 function same_position(shadow, process) {

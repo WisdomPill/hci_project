@@ -44,33 +44,49 @@
     <div class="row ">
         <div class="col-md-2 border-right border-dark nopadding">
             <div class="text-center">
-                <button type="button" class="btn btn-play btn-block" onclick="showGame()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Play</button>
+                <button type="button" class="btn btn-play btn-block" onclick="showGame()"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Play
+                </button>
             </div>
             <div class="text-center help">
-                <button type="button" class="btn btn-help btn-block" onclick="showHelp()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Help</button>
+                <button type="button" class="btn btn-help btn-block" onclick="showHelp()"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Help
+                </button>
             </div>
             <div class="text-center reset" id="reset-button">
-                <button type="button" class="btn btn-reset btn-block" onclick="resetButton()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Reset</button>
+                <button type="button" class="btn btn-reset btn-block" onclick="resetButton()"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Reset
+                </button>
             </div>
 
             <br>
             <br>
             <br>
             <div class="text-center">
-                <button type="button" class="btn btn-play btn-block btn-level" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 1</button>
+                <button type="button" class="btn btn-play btn-block btn-level" id="level1" onmouseover="PlaySound('beep')"
+                        onmouseout="StopSound('beep')" onclick="play_level(0)">Livello 1
+                </button>
             </div>
             <div class="text-center help">
-                <button type="button" class="btn btn-block btn-level level-off" disabled onclick="showHelp()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 2</button>
+                <button type="button" class="btn btn-block btn-level level-off" id="level2" disabled onclick="play_level(1)"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 2
+                </button>
             </div>
             <div class="text-center reset" id="reset2-button">
-                <button type="button" class="btn btn-block btn-level level-off" disabled onclick="resetButton()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 3</button>
+                <button type="button" class="btn btn-block btn-level level-off" id="level3" disabled onclick="play_level(2)"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Livello 3
+                </button>
             </div>
         </div>
         <div class="col-md-8 nopadding">
-            <div class="text-center title-level" id="titleLevel1" >Make tea</div>
+            <div class="text-center title-level" id="titleLevel1">Make tea</div>
             <div id="container" style="background-color: #ffffff"></div>
-            <div id="help"  style="display:none;">
-                <div class="text-center p-xl-4 help-page">The aim of the game is to position the green blocks on the left over the grey boxes on the right. The blocks on the left are in a random order and you have to position them in the right order to complete a certain action. When you finish click the compile button under the robot.  </div>
+            <div id="help" style="display:none;">
+                <div class="text-center p-xl-4 help-page">The aim of the game is to position the green blocks on the
+                    left over the grey boxes on the right. The blocks on the left are in a random order and you have to
+                    position them in the right order to complete a certain action. When you finish click the compile
+                    button under the robot.
+                </div>
                 <img class="img-center" src="img/moveblock.gif" alt="moveblockimage">
                 <br>
                 <br>
@@ -83,34 +99,37 @@
         <div class="col-md-2 border-left border-dark nopadding">
             <!--<div><img class="img-center" src="img/congrats_you_won.jpg" alt="you won"></div>-->
             <br>
-            <div id="messagewon" class="help-page text-center" style="display:none;"> Congrats you won! </div><br>
-            <div id="messagemissing" class="help-page text-center" style="display:none;"> You should move all the blocks! </div><br>
+            <div id="messagewon" class="help-page text-center" style="display:none;"> Congrats you won!</div>
+            <br>
+            <div id="messagemissing" class="help-page text-center" style="display:none;"> You should move all the
+                blocks!
+            </div>
+            <br>
             <div><img class="img-center" src="img/robot2.jpg" alt="robot"><br></div>
             <div class="text-center compile" id="compile-button">
-                <button type="button" class="btn btn-compile btn-block" onclick="compile()" onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Compile</button>
+                <button type="button" class="btn btn-compile btn-block" onclick="compile()"
+                        onmouseover="PlaySound('beep')" onmouseout="StopSound('beep')">Compile
+                </button>
             </div>
         </div>
 
     </div>
+</div>
 
-    <script src="js/main.js"></script>
-    <script src="js/listeners.js"></script>
-
-
-
+<script src="js/main.js"></script>
+<script src="js/listeners.js"></script>
 
 
-
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-    <script>
-        window.ga = function () {
-            ga.q.push(arguments)
-        };
-        ga.q = [];
-        ga.l = +new Date;
-        ga('create', 'UA-XXXXX-Y', 'auto');
-        ga('send', 'pageview')
-    </script>
-    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<script>
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
 </body>
 </html>

@@ -82,7 +82,7 @@ level_group.add(pseudo_code_group);
 
 var level_number = 0;
 
-prepare_level();
+prepare_level(level_number);
 
 
 stage.draw();
