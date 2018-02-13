@@ -57,7 +57,11 @@ function load_descriptor(descriptor, processes_group, shadows_group, lines_group
     });
 }
 
-function remove_level_nodes(stage){
+function prepare_level() {
+    load_descriptor(descriptors[level_number], processes_group, shadows_group, lines_group, pseudo_code_group);
+}
+
+function remove_level_nodes(stage) {
     var processes = stage.find('.process');
 
     processes.forEach(function (process) {
@@ -324,9 +328,10 @@ function compile_level(stage) {
         }
     });
 
+
     if (answered_all_shadows) {
-        editMessage();
-        showMessageWon();
+        // TODO move this to right spot ASAP
+//        showMessageWon();
         var params = {
             duration: 0.5,
             easing: Konva.Easings.Linear,
@@ -344,7 +349,8 @@ function compile_level(stage) {
         if (shadows[0].getAttr('right')) {
             pseudo_codes[0].to(params);
         }
-    }else {
+    } else {
+
         showMessageMissing();
     }
 }
@@ -367,6 +373,9 @@ function get_parameters_for_next_pseudo_codes(pseudo_codes, index, shadows) {
             } else if (index + 1 === pseudo_codes.length) {
                 // win game
                 console.log('congrats you won');
+                level_number++;
+                remove_level_nodes(stage);
+                prepare_level();
             }
         }
     }

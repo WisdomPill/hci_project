@@ -19,17 +19,19 @@ function showMessageMissing() {
 }
 
 function PlaySound(name) {
+    console.log(name);
     var sound = new Audio('audio/beep.wav');
     sound.play();
 }
 
-function StopSound(soundobj) {
-    var thissound=document.getElementById(soundobj);
-    thissound.pause();
-    thissound.currentTime = 0;
+function StopSound(name) {
+    console.log(name);
+    var sound = new Audio('audio/beep.wav');
+    sound.pause();
+    sound.currentTime = 0;
 }
 
-function compile(){
+function compile() {
     compile_level(stage);
 }
 
